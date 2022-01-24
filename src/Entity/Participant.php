@@ -38,7 +38,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $motPasse;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private $pseudo;
 
