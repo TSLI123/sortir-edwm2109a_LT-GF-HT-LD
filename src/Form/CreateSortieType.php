@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Lieu;
 
 use App\Entity\Sortie;
@@ -38,8 +39,9 @@ class CreateSortieType extends AbstractType
                 'label' => 'Nombre de places :',
             ])
             ->add('duree', NumberType::class, [
+                'html5' => true,
                 'label' => 'Durée :',
-                'scale' => 10,
+                'scale' => 0,
                 'attr' => array(
                     'min' => 60,
                     'max' => 240,
@@ -50,11 +52,13 @@ class CreateSortieType extends AbstractType
                 'label' => 'Descrption et infos :',
 
             ])
-            ->add('campus', 'text', array(
-                'read_only' => 'true',
+            ->add('campus', EntityType::class, [
+                'class'=> Campus::class,
+
                 'label' => 'Campus :'
-            ))
+            ])
             ->add('ville', EntityType::class, [
+                'mapped'=>false,
                 'class' => Ville::class,
                 'choice_label' => 'nom',
 

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SortieController!{% endblock %}
+
+{% block body %}
+<h1>hello</h1>
+    <div>
+        {{ form_start(sortieForm) }}
+        {{ form_widget(sortieForm) }}
+        <button name="save">Enregistrer</button>
+        <button name="publier">Publier la sortie</button>
+        <button name="annuler">Annuler</button>
+
+        {{ form_end(sortieForm) }}
+    </div>
+{% endblock %}
