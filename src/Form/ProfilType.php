@@ -41,6 +41,7 @@ class ProfilType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email : '
             ])
+            //TODO: supprimer ces com
             /*->add('old_motPasse', PasswordType::class, [
                 'label'=>'Mot de passe actuel',
                 'mapped'=>false,
@@ -72,7 +73,7 @@ class ProfilType extends AbstractType
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
-                'disabled' => true
+                //'disabled' => true
             ] )
             ->add('submit', SubmitType::class,[
                 'label'=>'Enregistrer'
