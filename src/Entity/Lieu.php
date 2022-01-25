@@ -89,7 +89,7 @@ class Lieu
         return $this->latitude;
     }
 
-    public function setLatitude(string $latitude): self
+    public function setLatitude(float $latitude): self
     {
         $this->latitude = $latitude;
 
