@@ -20,7 +20,7 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findByData(FiltresSorties $filtre, $user = null)
+    public function findByData(FiltresSorties $filtre, $user)
     {
         $queryBuilder = $this->createQueryBuilder('s');
         $queryBuilder->andWhere('s.nom like :val');
