@@ -21,6 +21,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=50)
+     *
      */
     private $nom;
 
