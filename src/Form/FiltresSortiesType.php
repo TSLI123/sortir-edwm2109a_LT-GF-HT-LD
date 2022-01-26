@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Classes\FiltresSorties;
 use App\Entity\Campus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -9,18 +10,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Validator\Util\PropertyPath;
 
-class ListSortieType extends AbstractType
+class FiltresSortiesType extends AbstractType
 {
-
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $builder
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
@@ -41,12 +37,10 @@ class ListSortieType extends AbstractType
             ->add('to', DateType::class, [
                 'label' => 'et',
                 'html5' => true,
-                'widget' => 'single_text',
-                'constraints' => [
-                    //new GreaterThan( $propertyAccessor->getValue($builder,'child.from'))
-                ]
+                'widget' => 'single_text'
             ])
-            ->add('choix', ChoiceType::class, [
+            ->add('choice', ChoiceType::class, [
+                'required' => false,
                 'choices' => [
                     "Sorties dont je suis l'organisateur/trice" => 'organisateur',
                     'Sorties auquelles je suis inscrit/e' => 'inscrit',
@@ -54,8 +48,15 @@ class ListSortieType extends AbstractType
                     'Sorties passées' => 'past'
                 ],
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
             ]);
+        ;
     }
 
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => FiltresSorties::class,
+        ]);
+    }
 }

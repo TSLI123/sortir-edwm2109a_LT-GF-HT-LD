@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Classes\FiltresSorties;
 use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
+use App\Form\FiltresSortiesType;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,13 +67,14 @@ class SortieController extends AbstractController
      */
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {
-        $sortieForm = $this->createForm(ListSortieType::class);
+        $filtre = new FiltresSorties();
+
+        $sortieForm = $this->createForm(FiltresSortiesType::class, $filtre);
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
-            $data = $sortieForm->getData();
-            $sorties = $sortieRepository->findByData($data, $this->getUser());
+            $sorties = $sortieRepository->findByData($filtre, $this->getUser());
 
         } else {
             $sorties = $sortieRepository->findAllCurrentSorties();

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Classes\FiltresSorties;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,45 +20,40 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findByData($data, $user = null)
+    public function findByData(FiltresSorties $filtre, $user = null)
     {
         $queryBuilder = $this->createQueryBuilder('s');
         $queryBuilder->andWhere('s.nom like :val');
         $queryBuilder->andWhere('s.campus = :val2');
         $queryBuilder->andWhere($queryBuilder->expr()->between('s.dateHeureDebut', ':date_from', ':date_to'));
-        $queryBuilder->setParameter('date_from', $data['from'], 'datetime');
-        $queryBuilder->setParameter('date_to', $data['to'], 'datetime');
-        $queryBuilder->setParameter('val', '%' . $data['search'] . '%');
-        $queryBuilder->setParameter('val2', $data['campus']);
+        $queryBuilder->setParameter('date_from', $filtre->getFrom(), 'datetime');
+        $queryBuilder->setParameter('date_to', $filtre->getTo(), 'datetime');
+        $queryBuilder->setParameter('val', '%' . $filtre->getSearch() . '%');
+        $queryBuilder->setParameter('val2', $filtre->getCampus());
 
-        $choices = $data['choix'];
+        $choices = $filtre->getChoice();
 
         if (in_array("organisateur", $choices)) {
             $queryBuilder->andWhere('s.organisateur = :val3');
             $queryBuilder->setParameter('val3', $user);
         }
         if (in_array("inscrit", $choices)) {
-            //to do : verifier si l'on est inscrit
-            //$queryBuilder->andWhere('s.organisateur like :val3');
-            //$queryBuilder->setParameter('val3', $user);
+            $queryBuilder->andWhere(':val4 MEMBER OF s.participants ');
+            $queryBuilder->setParameter('val4', $user);
         }
         if (in_array("/inscrit", $choices)) {
-            //to do : verifier si l'on est inscrit
-            //$queryBuilder->andWhere('s.organisateur like :val3');
-            //$queryBuilder->setParameter('val3', $user);
+            $queryBuilder->andWhere(':val5 NOT MEMBER OF s.participants ');
+            $queryBuilder->setParameter('val5', $user);
         }
 
         $queryBuilder->leftJoin('s.etat', 'e')
             ->addSelect('e');
         if (in_array("past", $choices)) {
-            $queryBuilder->andWhere('e.libelle = :val6');
+            $queryBuilder->andWhere('e.libelle = :val4');
         } else {
-            $queryBuilder->andWhere('e.libelle != :val6');
+            $queryBuilder->andWhere('e.libelle != :val4');
         }
-        $queryBuilder->setParameter('val6', "passée");
-
-
-
+        $queryBuilder->setParameter('val4', "passée");
 
         $query = $queryBuilder->getQuery();
 
@@ -71,8 +67,8 @@ class SortieRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('s');
         $queryBuilder->leftJoin('s.etat', 'e')
             ->addSelect('e');
-        $queryBuilder->andWhere('e.libelle != :val6');
-        $queryBuilder->setParameter('val6', "passée");
+        $queryBuilder->andWhere('e.libelle != :val');
+        $queryBuilder->setParameter('val', "passée");
         $query = $queryBuilder->getQuery();
 
         $query->setMaxResults(50);
