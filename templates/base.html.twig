@@ -22,7 +22,15 @@
 
 <div class="w3-container">
     <header>
-
+        {% if app.user %}
+        <nav>
+            <a href="#">Villes</a>
+            <a href="#">Campus</a>
+            <a href="{{ path('sortir_accueil') }}">Accueil</a>
+            <a href="">Mon profil</a>
+            <a href="{{ path('app_logout') }}">Se déconnecter</a>
+        </nav>
+        {% endif %}
     </header>
 </div>
     {# read and display all flash messages #}
@@ -42,7 +50,7 @@
     <div class="w3-container w3-bottom">
     <footer>
 
-        <div class="w3-border-bottom">&copy; {{ "now"|date("Y") }} Sorties</div>
+        <div class="w3-border-bottom">&copy; {{ "now"|date("Y") }} Sorties ENI</div>
 
     </footer>
     </div>
