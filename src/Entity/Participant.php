@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
@@ -54,8 +53,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $prenom;
 
     /**
-     * @Assert\Length(max=10, min=10)
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     private $telephone;
 
@@ -244,6 +242,13 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->actif = $actif;
 
         return $this;
+    }
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->motPasse;
     }
 
     public function getCampus(): ?Campus
