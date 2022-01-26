@@ -24,17 +24,18 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/participant/profil/{id}", name="profil")
+     * @Route("/profil/{pseudo}", name="profil")
      */
-    public function profil(int $id, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    public function profil(string $pseudo, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $participant = $participantRepository->find($id);
 
-        if (!$participant){
+        $user = $this->getUser();
+
+        if (!$user){
             throw $this->createNotFoundException('Ouuups pas de profil');
         }
 
-        $form = $this->createForm(ProfilType::class, $participant);
+        $form = $this->createForm(ProfilType::class, $user);
 
         $form->handleRequest($request);
 
@@ -59,13 +60,16 @@ class ParticipantController extends AbstractController
             $motPasse = $passwordHasher->hashPassword($participant,$participant->getMotPasse());
             $participant->setMotPasse($motPasse);
 
-            $this->entityManager->persist($participant);
+            //$this->entityManager->persist($participant);
             $this->entityManager->flush();
+
+            //Créer un message à afficher à l'issue
+            $this->addFlash('success', 'Profil mis à jour !');
 
         }
 
         return $this->render('participant/profil.html.twig', [
-            "participant" => $participant,
+            "app.user" => $user,
             'form' => $form->createView()
             ]);
     }
