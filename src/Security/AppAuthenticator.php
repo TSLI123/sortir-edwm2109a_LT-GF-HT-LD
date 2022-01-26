@@ -43,14 +43,14 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('_profiler_home'));
+        return new RedirectResponse($this->urlGenerator->generate('sortir_accueil'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
@@ -58,4 +58,10 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
+
+public function supports(Request $request): bool
+{
+    return self::LOGIN_ROUTE===$request->attributes->get('_route')
+        && $request->isMethod('POST');
+}
 }
