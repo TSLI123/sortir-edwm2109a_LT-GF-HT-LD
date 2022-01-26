@@ -65,15 +65,16 @@ class SortieController extends AbstractController
      */
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {
-        $sorties = $sortieRepository->findAll();
-
         $sortieForm = $this->createForm(ListSortieType::class);
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            // data is an array with "name", "email", and "message" keys
+
             $data = $sortieForm->getData();
-            //var_dump($data);
+            $sorties = $sortieRepository->findByData($data, $this->getUser());
+
+        } else {
+            $sorties = $sortieRepository->findAllCurrentSorties();
         }
 
         return $this->render('sortie/accueil.html.twig', [

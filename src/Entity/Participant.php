@@ -6,11 +6,14 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
+ * @UniqueEntity("email")
+ * @UniqueEntity("pseudo")
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -25,11 +28,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -78,6 +76,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
+     */
+    private $sortiesOrganisees;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -123,19 +126,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->administrateur ? ['ROLE_ADMIN']: ['ROLE_USER'];
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -286,4 +279,29 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSortiesOrganisees()
+    {
+        return $this->sortiesOrganisees;
+    }
+
+    public function addSortiesOrganisees(Sortie $sorty): self
+    {
+        if (!$this->sortiesOrganisees->contains($sorty)) {
+            $this->sortiesOrganisees[] = $sorty;
+        }
+
+        return $this;
+    }
+
+    public function removeSortiesOrganisees(Sortie $sorty): self
+    {
+        $this->sortiesOrganisees->removeElement($sorty);
+
+        return $this;
+    }
+
 }

@@ -51,7 +51,7 @@ class CreateSortieType extends AbstractType
                 )
             ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Descrption et infos : ',
+                'label' => 'Description et infos : ',
 
             ])
             ->add('campus', EntityType::class, [
