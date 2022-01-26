@@ -248,7 +248,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        return $this->password;
+        return $this->motPasse;
     }
 
     public function getCampus(): ?Campus
