@@ -21,6 +21,8 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Length(max=50)
+     * @Assert\NotBlank(message="Entrez un nom pour la sortie svp")
      */
     private $nom;
 

@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,19 +29,19 @@ class CreateSortieType extends AbstractType
             ->add('dateHeureDebut', DateTimeType::class, [
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Date et heure de la sortie :'
+                'label' => 'Date et heure de la sortie : '
             ])
             ->add('dateLimiteInscription', DateType::class, [
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => "Date limite d'inscription",
+                'label' => "Date limite d'inscription : ",
             ])
             ->add('nbInscriptionsMax', NumberType::class, [
-                'label' => 'Nombre de places :',
+                'label' => 'Nombre de places : ',
             ])
             ->add('duree', NumberType::class, [
                 'html5' => true,
-                'label' => 'Durée :',
+                'label' => 'Durée : ',
                 'scale' => 0,
                 'attr' => array(
                     'min' => 60,
@@ -49,13 +50,14 @@ class CreateSortieType extends AbstractType
                 )
             ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Descrption et infos :',
+                'label' => 'Descrption et infos : ',
 
             ])
             ->add('campus', EntityType::class, [
-                'class'=> Campus::class,
-
-                'label' => 'Campus :'
+                'class' => Campus::class,
+                'label' => 'Campus : ',
+                'choice_label'=>'nom',
+                'attr'=>['readonly'=>'readonly']
             ])
             ->add('ville', EntityType::class, [
                 'mapped'=>false,
@@ -65,7 +67,17 @@ class CreateSortieType extends AbstractType
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                'choice_label' => 'nom',]);
+                'choice_label' => 'nom',])
+            ->add('save',SubmitType::class,[
+                'label'=>'Enregistrer',
+            ])
+            ->add('publier',SubmitType::class,[
+                'label'=>'Publier',])
+            ->add('annuler',SubmitType::class,[
+                'label'=>'Annuler',]);
+
+
+
 
 
     }
