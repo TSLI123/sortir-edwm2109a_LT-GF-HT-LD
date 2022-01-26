@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateSortieType extends AbstractType
@@ -44,10 +45,12 @@ class CreateSortieType extends AbstractType
                 'html5' => true,
                 'label' => 'Durée : ',
                 'scale' => 0,
+
                 'attr' => array(
                     'min' => 60,
                     'max' => 240,
                     'step' => 10,
+                    'placeholder' => '90',
                 )
             ])
             ->add('infosSortie', TextareaType::class, [
@@ -57,11 +60,11 @@ class CreateSortieType extends AbstractType
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'label' => 'Campus : ',
-                'choice_label'=>'nom',
-                'attr'=>['readonly'=>'readonly']
+                'choice_label' => 'nom',
+                'attr' => ['readonly' => true]
             ])
             ->add('ville', EntityType::class, [
-                'mapped'=>false,
+                'mapped' => false,
                 'class' => Ville::class,
                 'choice_label' => 'nom',
 
@@ -69,17 +72,13 @@ class CreateSortieType extends AbstractType
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom',])
-            ->add('save',SubmitType::class,[
-                'label'=>'Enregistrer',
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer',
             ])
-            ->add('publier',SubmitType::class,[
-                'label'=>'Publier',])
-            ->add('annuler',ResetType::class,[
-                'label'=>'Annuler',]);
-
-
-
-
+            ->add('publier', SubmitType::class, [
+                'label' => 'Publier',])
+            ->add('annuler', ResetType::class, [
+                'label' => 'Annuler',]);
 
     }
 
