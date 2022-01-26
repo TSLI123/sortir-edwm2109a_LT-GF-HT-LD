@@ -40,27 +40,28 @@ class ParticipantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            /*$old_mdp = $form->get('old_motPasse')->getData();
 
-            if ($passwordHasher->isPasswordValid($participant, $old_mdp)){
-                $new_mdp = $form->get('new_motPasse')->getData();
-                $motPasse = $passwordHasher->hashPassword($participant, $new_mdp);
 
+
+            $motPasse = $form->getData()->getMotPasse();
+
+            if ($motPasse == null){
+
+               $this->entityManager->persist($form->getData()->getPseudo());
+               $this->entityManager->persist($form->getData()->getNom());
+               $this->entityManager->persist($form->getData()->getPrenom());
+               $this->entityManager->persist($form->getData()->getTelephone());
+               $this->entityManager->persist($form->getData()->getEmail());
+               $this->entityManager->persist($form->getData()->getCampus());
+
+           }
+            else {
+                $participant = $form->getData();
+                $motPasse = $passwordHasher->hashPassword($participant, $participant->getMotPasse());
                 $participant->setMotPasse($motPasse);
 
-
-                $this->entityManager->persist($participant);
-                $this->entityManager->flush();
-
-            }*/
-
-
-            $participant = $form->getData();
-
-            $motPasse = $passwordHasher->hashPassword($participant,$participant->getMotPasse());
-            $participant->setMotPasse($motPasse);
-
-            //$this->entityManager->persist($participant);
+                //$this->entityManager->persist($participant);
+            }
             $this->entityManager->flush();
 
             //Créer un message à afficher à l'issue

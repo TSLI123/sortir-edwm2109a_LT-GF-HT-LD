@@ -53,7 +53,6 @@ class ProfilType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identiques.',
                 'label' => 'Nouveau mot de passe :',
-                //'mapped'=>false,
                 'required' =>false,
                 'first_options' => [
                     'label' => 'Nouveau mot de passe : ',
