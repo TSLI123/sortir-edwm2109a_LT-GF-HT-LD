@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Classes\FiltresSorties;
 use App\Entity\Etat;
-use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
 use App\Form\FiltresSortiesType;
@@ -15,14 +14,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form;
-use App\Form\ListSortieType;
 
-
+/**
+ * @Route("/sortie", name="sortie_")
+ */
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/sortie", name="sortie_create")
+     * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
 
@@ -53,7 +52,7 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            return $this->redirectToRoute('sortir_accueil');
+            return $this->redirectToRoute('sortie_accueil');
         }
 
 
@@ -63,7 +62,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/accueil", name="sortir_accueil")
+     * @Route("/accueil", name="accueil")
      */
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {
@@ -85,4 +84,5 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm->createView()
         ]);
     }
+
 }

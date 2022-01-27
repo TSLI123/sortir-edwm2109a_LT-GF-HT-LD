@@ -5,18 +5,18 @@
 {% block body %}
 
 
-<h3>Filter les sorties</h3>
+    <h3>Filter les sorties</h3>
 
     <div>
-        {{ form_start(sortieForm)}}
+        {{ form_start(sortieForm) }}
         {{ form_widget(sortieForm) }}
         <button>Rechercher</button>
-        {{ form_end(sortieForm)}}
+        {{ form_end(sortieForm) }}
     </div>
 
-<div class="w3-responsive tableFixHead">
-    <table class="w3-table-all w3-hoverable ">
-        <thead>
+    <div class="w3-responsive tableFixHead">
+        <table class="w3-table-all w3-hoverable ">
+            <thead>
             <tr>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
@@ -27,22 +27,48 @@
                 <th>Organisateur</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut | date('d/m/Y h:i') }}</td>
-                <td>{{ sortie.dateLimiteInscription | date('d/m/Y') }}</td>
-                <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.etat.libelle }}</td>
-                <td>{% if app.user in  sortie.participants%}X{% endif %}</td>
-                <td>{{ sortie.organisateur.nom}}</td>
-                <td>Actions</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+            {% for sortie in sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut | date('d/m/Y h:i') }}</td>
+                    <td>{{ sortie.dateLimiteInscription | date('d/m/Y') }}</td>
+                    <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.etat.libelle }}</td>
+                    <td>{% if app.user in  sortie.participants %}X{% endif %}</td>
+                    <td>{{ sortie.organisateur.nom|capitalize }} {{ sortie.organisateur.prenom|capitalize|u.truncate(1) }}
+                        .
+                    </td>
+                    <td>
+                        {% if app.user == sortie.organisateur %}
+                            {% if sortie.etat.libelle == 'Créée' %}
+                                <a href="{{ path('sortie_modifier' , {"id" : sortie.id}) }}">Modifier</a> -
+                                <a href="{{ path('sortie_publier', {"id" : sortie.id}) }}">Publier</a>
+                            {% elseif sortie.etat.libelle == 'Ouverte' %}
+                                <a href="{{ path('sortie_afficher', {"id" : sortie.id}) }}">Afficher</a> -
+                                <a href="{{ path('sortie_annuler', {"id" : sortie.id}) }}">Annuler</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('sortie_afficher', {"id" : sortie.id}) }}">Afficher</a>
+                            {% if sortie.etat.libelle == 'Ouverte' or sortie.etat.libelle == 'Clôturée' %}
+                                {% if app.user in  sortie.participants %}
+                                    - <a href="{{ path('sortie_seDesister', {"id" : sortie.id}) }}">Se désister</a>
+                                {% else %}
+                                    - <a href="{{ path('sortie_sInscrire', {"id" : sortie.id}) }}">S'inscrire</a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <br><br>
+    <div>
+        <a href="{{ path('sortie_create') }}" class="w3-button w3-round-xlarge w3-border">Créer une sortie</a>
+    </div>
 
 {% endblock %}

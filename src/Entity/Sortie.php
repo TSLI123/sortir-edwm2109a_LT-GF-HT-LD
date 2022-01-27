@@ -41,7 +41,8 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan(propertyPath="dateHeureDebut")
+     * @Assert\LessThan (propertyPath="dateHeureDebut")
+     * @Assert\GreaterThan("today")
      */
     private $dateLimiteInscription;
 
