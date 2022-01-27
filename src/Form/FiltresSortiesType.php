@@ -49,6 +49,7 @@ class FiltresSortiesType extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true,
+                'label' => false
             ]);
         ;
     }
