@@ -41,19 +41,13 @@ class ProfilType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email : '
             ])
-            //TODO: supprimer ces com
-            /*->add('old_motPasse', PasswordType::class, [
-                'label'=>'Mot de passe actuel',
-                'mapped'=>false,
-                'attr'=> [
-                    'placeholder' => 'Entrez votre ancien mot de passe'
-                ]
-            ])*/
-            ->add('motPasse', RepeatedType::class, [
+
+            ->add('new_motPasse', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identiques.',
                 'label' => 'Nouveau mot de passe :',
                 'required' =>false,
+                'mapped'=>false,
                 'first_options' => [
                     'label' => 'Nouveau mot de passe : ',
                     'attr'=>[

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
@@ -25,32 +26,40 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @Assert\Email()
+     * @Assert\Length(min=6, max=40)
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
+     *
+     * @Assert\Length(min=8)
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $motPasse;
 
     /**
+     * @Assert\Length(min=4, max=10)
      * @ORM\Column(type="string", length=30, unique=true)
      */
     private $pseudo;
 
     /**
+     * @Assert\Length(min=2, max=30)
      * @ORM\Column(type="string", length=30)
      */
     private $nom;
 
     /**
+     * @Assert\Length(min=2, max=30)
      * @ORM\Column(type="string", length=30)
      */
     private $prenom;
 
     /**
+     * @Assert\Length(min=10, max=10)
      * @ORM\Column(type="integer")
      */
     private $telephone;

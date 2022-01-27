@@ -13,10 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ParticipantController extends AbstractController
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
-     * @param $entityManager
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -42,26 +42,24 @@ class ParticipantController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
 
 
+            $motPasse = $form->get('new_motPasse')->getData();
 
-            $motPasse = $form->getData()->getMotPasse();
+            if (empty($motPasse)){
 
-            if ($motPasse == null){
+                $participant = $form->get('pseudo', 'nom', 'prenom','telephone','email','campus')->getData();
 
-               $this->entityManager->persist($form->getData()->getPseudo());
-               $this->entityManager->persist($form->getData()->getNom());
-               $this->entityManager->persist($form->getData()->getPrenom());
-               $this->entityManager->persist($form->getData()->getTelephone());
-               $this->entityManager->persist($form->getData()->getEmail());
-               $this->entityManager->persist($form->getData()->getCampus());
+                $participant = $form->getData();
+
 
            }
             else {
                 $participant = $form->getData();
-                $motPasse = $passwordHasher->hashPassword($participant, $participant->getMotPasse());
+                $motPasse = $passwordHasher->hashPassword($participant, $motPasse);
                 $participant->setMotPasse($motPasse);
+                $this->entityManager->persist($participant);
 
-                //$this->entityManager->persist($participant);
             }
+
             $this->entityManager->flush();
 
             //Créer un message à afficher à l'issue
