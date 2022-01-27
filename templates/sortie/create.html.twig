@@ -8,13 +8,7 @@
 {% block body %}
 
 <h1 class="">Créer une sortie</h1>
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash flash-{{ label }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
+
     {% form_theme sortieForm 'bootstrap_5_layout.html.twig' %}
     <div >
         {{ form_start(sortieForm) }}
