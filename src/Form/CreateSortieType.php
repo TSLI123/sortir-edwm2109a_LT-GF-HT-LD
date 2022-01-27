@@ -72,6 +72,26 @@ class CreateSortieType extends AbstractType
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom',])
+            ->add('rue', EntityType::class,[
+                'mapped' => false,
+                'class' =>Lieu::class,
+                'choice_label' =>'rue',
+            ])
+            ->add('codePostal', EntityType::class,[
+                'mapped' => false,
+                'class' =>Ville::class,
+                'choice_label' =>'code_postal',
+            ])
+            ->add('latitude', EntityType::class,[
+                'mapped' => false,
+                'class' =>Lieu::class,
+                'choice_label' =>'latitude',
+            ])
+            ->add('longitude', EntityType::class,[
+                'mapped' => false,
+                'class' =>Lieu::class,
+                'choice_label' =>'longitude',
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
             ])
