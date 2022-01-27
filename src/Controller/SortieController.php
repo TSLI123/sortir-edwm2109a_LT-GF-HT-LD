@@ -85,4 +85,21 @@ class SortieController extends AbstractController
         ]);
     }
 
+    //Afficher les infos d'une sortie
+    /**
+     * @Route ("/details/{id}", name="details")
+     */
+    public function details(int $id, SortieRepository $sortieRepository):Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie){
+            throw  $this->createNotFoundException('Aucune sortie par ici !');
+        }
+        return $this->render('sortie/details.html.twig', [
+            "sortie" => $sortie
+        ]);
+
+    }
+
 }
