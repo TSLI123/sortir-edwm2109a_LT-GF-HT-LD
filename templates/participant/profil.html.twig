@@ -1,16 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon profil | {{ parent() }}{% endblock %}
+{% block title %}
+    Profil de {{ profil.pseudo }} | {{ parent() }}
+{% endblock %}
+
 
 {% block body %}
+    <br>
+    <br>
+<h3 class="w3-center">{{ profil.pseudo }}</h3>
+    <div class="w3-display-container" style="height:500px;">
 
-<div class="details-profil">
-    <h1>Mon profil</h1>
-
-    <div>
-       {{ form(form)}}
-
+        <div class="w3-display-middle">
+            <label>Prénom :</label>
+            <label>{{ profil.prenom }}</label>
+            <br>
+            <label>Nom :</label>
+            <label>{{ profil.nom }}</label>
+            <br>
+            <label>Téléphone :</label>
+            <label>{{ profil.telephone }}</label>
+            <br>
+            <label>Email :</label>
+            <label>{{ profil.email }}</label>
+            <br>
+            <label>Campus :</label>
+            <label>{{ profil.campus.nom }}</label>
+        </div>
     </div>
 
-</div>
-{% endblock %}
+    <div class="w3-center">
+        <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
+    </div>
+
+    {% endblock %}
+
+
+

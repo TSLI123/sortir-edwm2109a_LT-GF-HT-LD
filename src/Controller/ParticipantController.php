@@ -28,8 +28,18 @@ class ParticipantController extends AbstractController
      */
     public function profil(string $pseudo, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
-
         $user = $this->getUser();
+        dump($user);
+
+        if ($pseudo !== $user->getPseudo()){
+            $profil = $participantRepository->loadUserByIdentifier($pseudo);
+            if (!$profil) {
+                throw $this->createNotFoundException('Ouuups pas de profil');
+            }
+            return $this->render('participant/profil.html.twig', [
+                'profil' => $profil
+            ]);
+        }
 
         if (!$user){
             throw $this->createNotFoundException('Ouuups pas de profil');
@@ -67,8 +77,7 @@ class ParticipantController extends AbstractController
 
         }
 
-        return $this->render('participant/profil.html.twig', [
-            "app.user" => $user,
+        return $this->render('participant/myProfil.html.twig', [
             'form' => $form->createView()
             ]);
     }
