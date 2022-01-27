@@ -36,6 +36,7 @@
         {% endif %}
     </header>
 </div>
+
     {# read and display all flash messages #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
@@ -44,18 +45,19 @@
             </div>
         {% endfor %}
     {% endfor %}
+
     <div class="w3-container">
-    <main>
-        {% block body %}{% endblock %}
-
-    </main>
+        <main>
+            {% block body %}{% endblock %}
+        </main>
     </div>
+
     <div class="w3-container w3-bottom">
-    <footer>
+        <footer>
 
-        <div class="w3-border-bottom">&copy; {{ "now"|date("Y") }} Sorties ENI</div>
+            <div class="w3-border-bottom">&copy; {{ "now"|date("Y") }} Sorties ENI</div>
 
-    </footer>
+        </footer>
     </div>
 </body>
 </html>

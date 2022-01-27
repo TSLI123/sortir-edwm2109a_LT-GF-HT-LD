@@ -15,11 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+/**
+ * @Route("/sortie", name="sortie_")
+ */
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/sortie", name="sortie_create")
+     * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
 
@@ -60,7 +62,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/accueil", name="sortir_accueil")
+     * @Route("/accueil", name="accueil")
      */
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {
@@ -82,4 +84,5 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm->createView()
         ]);
     }
+
 }
