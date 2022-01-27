@@ -52,7 +52,7 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            return $this->redirectToRoute('sortir_accueil');
+            return $this->redirectToRoute('sortie_accueil');
         }
 
 
