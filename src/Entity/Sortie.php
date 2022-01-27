@@ -22,6 +22,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
      * @Assert\Length(min=4 , max=50 ,minMessage="le nom est trés court",maxMessage="le nom est trés long")
      */
     private $nom;
