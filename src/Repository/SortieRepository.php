@@ -49,11 +49,11 @@ class SortieRepository extends ServiceEntityRepository
         $queryBuilder->leftJoin('s.etat', 'e')
             ->addSelect('e');
         if (in_array("past", $choices)) {
-            $queryBuilder->andWhere('e.libelle = :val4');
+            $queryBuilder->andWhere('e.libelle = :val6');
         } else {
-            $queryBuilder->andWhere('e.libelle != :val4');
+            $queryBuilder->andWhere('e.libelle != :val6');
         }
-        $queryBuilder->setParameter('val4', "passée");
+        $queryBuilder->setParameter('val6', "passée");
 
         $query = $queryBuilder->getQuery();
 
