@@ -24,7 +24,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/profil/{pseudo}", name="profil")
+     * @Route("/profil/{pseudo}", name="participant_profil")
      */
     public function profil(string $pseudo, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
