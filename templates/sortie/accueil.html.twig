@@ -50,7 +50,7 @@
                                 <a href="#">Publier</a>
                             {% elseif sortie.etat.libelle == 'Ouverte' %}
                                 <a href="{{ path('sortie_details', {"id" : sortie.id}) }}">Afficher</a> -
-                                <a href="#">Annuler</a>
+                                <a href="{{ path('sortie_annuler',{"id" : sortie.id})}}">Annuler</a>
                             {% endif %}
                         {% else %}
                             <a href="{{ path('sortie_details', {"id" : sortie.id}) }}">Afficher</a>
