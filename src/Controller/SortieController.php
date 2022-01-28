@@ -7,6 +7,7 @@ use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
 use App\Form\FiltresSortiesType;
+use App\Form\SortieAnnulerType;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -123,6 +124,39 @@ class SortieController extends AbstractController
         }
         return $this->render('sortie/details.html.twig', [
             "sortie" => $sortie
+        ]);
+
+    }
+    //annuler une sortie
+    /**
+     * @Route ("/annuler/{id}" , name="annuler")
+     */
+    public function annuler (int $id , SortieRepository $sortieRepository ,Request $request,EntityManagerInterface $entityManager):Response
+    {   $sortie = $sortieRepository->find($id);
+        if (!$sortie){
+            throw  $this->createNotFoundException('Aucune sortie par ici !');
+        }
+
+        $annulerForm = $this->createForm(SortieAnnulerType::class,$sortie);
+        $annulerForm->handleRequest($request);
+        if ($annulerForm->isSubmitted()&&$annulerForm->isValid()){
+            $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Annulée']);
+
+            $sortie->setEtat($etat);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('sortie_accueil');
+        }
+
+
+
+
+
+
+
+        return $this->render('sortie/annuler.html.twig',[
+            "sortie" => $sortie,
+            'annulerForme'=>$annulerForm->createView()
         ]);
 
     }
