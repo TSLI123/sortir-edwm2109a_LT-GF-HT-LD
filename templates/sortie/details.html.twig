@@ -16,6 +16,10 @@
         <div>Code postal : {{ sortie.lieu.ville.codePostal }}</div>
         <div>Latitude : {{ sortie.lieu.latitude }}</div>
         <div>Longitude : {{ sortie.lieu.longitude }}</div>
+
+    </div>
+    <div>
+        <a href="#" class="w3-button w3-round-xlarge w3-border">S'inscrire</a>
     </div>
 
     <h2>Liste des participants :</h2>
@@ -32,8 +36,8 @@
             <tbody>
                 {% for participant in sortie.participants  %}
                     <tr>
-                        <td>{{ participant.pseudo }}</td>
-                        <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                        <td><a href="{{ path('participant_profil', {"pseudo" : participant.pseudo}) }}">{{ participant.pseudo }}</a></td>
+                        <td>{{ participant.prenom }} {{ participant.nom|upper }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

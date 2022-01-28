@@ -71,7 +71,7 @@ class AppFixtures extends Fixture
             $participant->setNom("Nom " . $count);
             $participant->setPrenom("Prenom" . $count);
             $participant->setPseudo("pseudo" . $count);
-            $participant->setTelephone("2123456789");
+            $participant->setTelephone("0123456789");
             $participant->setEmail("mail" . $count . "@eni.fr");
 
             $participant->setMotPasse($this->userPasswordHasher->hashPassword($participant, $plainPassword));
