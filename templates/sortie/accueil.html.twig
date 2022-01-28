@@ -48,9 +48,11 @@
                             {% if sortie.etat.libelle == 'Créée' %}
                                   <a href="#">Modifier</a> -
                                 <a href="#">Publier</a>
-                            {% elseif sortie.etat.libelle == 'Ouverte' %}
-                                <a href="{{ path('sortie_details', {"id" : sortie.id}) }}">Afficher</a> -
-                                <a href="#">Annuler</a>
+                            {% else %}
+                                <a href="{{ path('sortie_details', {"id" : sortie.id}) }}">Afficher</a>
+                                {%if sortie.etat.libelle == 'Ouverte' %}
+                                     - <a href="#">Annuler</a>
+                                {% endif %}
                             {% endif %}
                         {% else %}
                             <a href="{{ path('sortie_details', {"id" : sortie.id}) }}">Afficher</a>
@@ -64,6 +66,8 @@
                         {% endif %}
                     </td>
                 </tr>
+            {% else %}
+                <tr><td class="w3-animate-fading">Il n'y a pas de sortie à afficher !</td></tr>
             {% endfor %}
             </tbody>
         </table>
