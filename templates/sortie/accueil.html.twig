@@ -60,13 +60,13 @@
                             <a href="{{ path('sortie_details', {"id" : sortie.id}) }}">Afficher</a>
                             {% if sortie.etat.libelle == 'Ouverte' %}
                                 {% if app.user in  sortie.participants %}
-                                    <a href={{ path('sortie_seDesister', {"id" : sortie.id}) }}>Se désister</a>
+                                    <a href="{{ path('sortie_seDesister', {"id" : sortie.id}) }}">Se désister</a>
                                 {% else %}
                                     <a href="{{ path('sortie_sInscrire', {"id" : sortie.id}) }}">S'inscrire</a>
                                 {% endif %}
                             {% elseif sortie.etat.libelle == 'Clôturée' %}
                                 {% if app.user in  sortie.participants %}
-                                    - <a href="#">Se désister</a>
+                                    - <a href="{{ path('sortie_seDesister', {"id" : sortie.id}) }}">Se désister</a>
                                 {% endif %}
                             {% endif %}
                         {% endif %}
