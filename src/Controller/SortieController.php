@@ -64,7 +64,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/accueil", name="accueil")
      */
-    public function index(Request $request, SortieRepository $sortieRepository): Response
+    public function index(Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager): Response
     {
         $filtre = new FiltresSorties();
 
@@ -77,6 +77,17 @@ class SortieController extends AbstractController
 
         } else {
             $sorties = $sortieRepository->findAllCurrentSorties();
+        }
+
+        // recherche et clotures des sorties
+        $currentTime = new \DateTime();
+        foreach ($sorties as $sortie){
+            if ($sortie->getEtat()->getLibelle() === 'Ouverte' && $sortie->getDateLimiteInscription() < $currentTime){
+                $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Clôturée']);
+                $sortie->setEtat($etat);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+            }
         }
 
         return $this->render('sortie/accueil.html.twig', [
