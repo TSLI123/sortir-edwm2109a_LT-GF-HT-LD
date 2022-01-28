@@ -25,17 +25,18 @@ class FiltresSortiesType extends AbstractType
             ])
             ->add('search', SearchType::class, [
                 'required' => false,
+                'label' =>'Rechercher : ',
                 'constraints' => [
                     new Length(['max' => 50]),
                 ],
             ])
             ->add('from', DateType::class, [
-                'label' => 'entre',
+                'label' => 'Entre le : ',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('to', DateType::class, [
-                'label' => 'et',
+                'label' => 'Et le :',
                 'html5' => true,
                 'widget' => 'single_text'
             ])

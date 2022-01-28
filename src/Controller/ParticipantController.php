@@ -29,7 +29,6 @@ class ParticipantController extends AbstractController
     public function profil(string $pseudo, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = $this->getUser();
-        dump($user);
 
         if ($pseudo !== $user->getPseudo()){
             $profil = $participantRepository->loadUserByIdentifier($pseudo);
