@@ -18,9 +18,11 @@
         <div>Longitude : {{ sortie.lieu.longitude }}</div>
 
     </div>
+    {% if sortie.etat.id is not same as(3) %}
     <div>
         <a href="#" class="w3-button w3-round-xlarge w3-border">S'inscrire</a>
     </div>
+    {% endif %}
 
     <h2>Liste des participants :</h2>
 
@@ -45,9 +47,11 @@
 
 </div>
 
+
     <div class="w3-center">
         <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
     </div>
+
 {% endblock %}
 
 {% block title %}

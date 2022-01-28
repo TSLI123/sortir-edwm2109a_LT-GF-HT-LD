@@ -34,7 +34,8 @@
             </thead>
             <tbody>
             {% for sortie in sorties %}
-                <tr>
+
+                <tr style="'.$display'">
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.dateHeureDebut | date('d/m/Y h:i') }}</td>
                     <td>{{ sortie.dateLimiteInscription | date('d/m/Y') }}</td>
@@ -56,11 +57,15 @@
                             {% endif %}
                         {% else %}
                             <a href="{{ path('sortie_details', {"id" : sortie.id}) }}">Afficher</a>
-                            {% if sortie.etat.libelle == 'Ouverte' or sortie.etat.libelle == 'Clôturée' %}
+                            {% if sortie.etat.libelle == 'Ouverte' %}
                                 {% if app.user in  sortie.participants %}
                                     - <a href="#">Se désister</a>
                                 {% else %}
                                     - <a href="#">S'inscrire</a>
+                                {% endif %}
+                            {% elseif sortie.etat.libelle == 'Clôturée' %}
+                                {% if app.user in  sortie.participants %}
+                                    - <a href="#">Se désister</a>
                                 {% endif %}
                             {% endif %}
                         {% endif %}

@@ -60,7 +60,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @Assert\Length(min=10, max=10)
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=10)
      */
     private $telephone;
 
@@ -89,6 +89,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
      */
     private $sortiesOrganisees;
+
+
 
     public function __construct()
     {
@@ -312,5 +314,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 
 }

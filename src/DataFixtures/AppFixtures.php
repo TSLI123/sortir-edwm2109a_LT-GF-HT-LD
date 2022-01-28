@@ -99,7 +99,7 @@ class AppFixtures extends Fixture
             $sortie->setLieu($lieu);
             $sortie->setEtat($etatEntities[1]);
 
-            $sortie->setDateHeureDebut(new \DateTime());
+            $sortie->setDateHeureDebut(new \DateTime('+20 days'));
             $sortie->setDateLimiteInscription(new \DateTime("+".$count." day"));
 
             $sortie->setNbInscriptionsMax(10);

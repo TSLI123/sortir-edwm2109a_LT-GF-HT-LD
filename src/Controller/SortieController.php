@@ -90,6 +90,20 @@ class SortieController extends AbstractController
             }
         }
 
+        // recherche et passage en "passée" avec archivage automatique
+        foreach ($sorties as $sortie){
+            $dateSortie = new \DateTime($sortie->getDateHeureDebut()->format("d-m-Y"));
+            if (date_add($dateSortie, date_interval_create_from_date_string("30 days")) < $currentTime){
+                $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'passée']);
+                $sortie->setEtat($etat);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+            }
+        }
+
+
+
+
         return $this->render('sortie/accueil.html.twig', [
             'sorties' => $sorties,
             'sortieForm' => $sortieForm->createView()
