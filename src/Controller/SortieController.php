@@ -11,6 +11,7 @@ use App\Form\SortieAnnulerType;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -160,5 +161,42 @@ class SortieController extends AbstractController
         ]);
 
     }
+    //s'inscrire à une sortie
+    /**
+     * @Route ("/inscription/{id}" , name="sInscrire")
+     */
+    public function sInsrireAUneSortie(int $id, SortieRepository $sortieRepository, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager) :RedirectResponse {
+        //récupérer la sortie
+        $sortie = $sortieRepository->find($id);
+        //récupérer le participant
+        $participant = $participantRepository->find($this->getUser());
+        //ajouter le participant s'il n'est pas déjà dans la liste
+
+        $sortie->addParticipant($participant);
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("sortie_accueil");
+
+    }
+    //s'inscrire à une sortie
+    /**
+     * @Route ("/desinscription/{id}" , name="seDesister")
+     */
+    public function seDesisteDUneSortie(int $id, SortieRepository $sortieRepository, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager) :RedirectResponse {
+        //récupérer la sortie
+        $sortie = $sortieRepository->find($id);
+        //récupérer le participant
+        $participant = $participantRepository->find($this->getUser());
+        //ajouter le participant s'il n'est pas déjà dans la liste
+
+        $sortie->removeParticipant($participant);
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("sortie_accueil");
+
+    }
+
 
 }
