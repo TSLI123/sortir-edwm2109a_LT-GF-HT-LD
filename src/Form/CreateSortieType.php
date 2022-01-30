@@ -17,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateSortieType extends AbstractType
@@ -43,7 +42,7 @@ class CreateSortieType extends AbstractType
             ])
             ->add('duree', NumberType::class, [
                 'html5' => true,
-                'label' => 'Durée : ',
+                'label' => 'Durée (minute): ',
                 'scale' => 0,
 
                 'attr' => array(
@@ -72,7 +71,7 @@ class CreateSortieType extends AbstractType
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom',])
-            ->add('rue', EntityType::class,[
+            /*->add('rue', EntityType::class,[
                 'mapped' => false,
                 'class' =>Lieu::class,
                 'choice_label' =>'rue',
@@ -91,7 +90,7 @@ class CreateSortieType extends AbstractType
                 'mapped' => false,
                 'class' =>Lieu::class,
                 'choice_label' =>'longitude',
-            ])
+            ])*/
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
             ])
