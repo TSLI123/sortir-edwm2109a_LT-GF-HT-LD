@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center fw-bold">Créer un participant</h1>
+
+    {% form_theme participantForm 'bootstrap_5_horizontal_layout.html.twig' %}
+    <div >
+        {{ form_start(participantForm) }}
+
+        {{ form_widget(participantForm) }}
+        <button>Valider</button>
+        {{ form_end(participantForm) }}
+    </div>
+{% endblock %}
+
+{% block title %}Création participant | {{ parent() }}{% endblock %}
+
