@@ -89,9 +89,11 @@ class Sortie
     private $organisateur;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $motif;
+
+
 
     public function __construct()
     {
@@ -255,10 +257,12 @@ class Sortie
         return $this->motif;
     }
 
-    public function setMotif(string $motif): self
+    public function setMotif(?string $motif): self
     {
         $this->motif = $motif;
 
         return $this;
     }
+
+
 }
