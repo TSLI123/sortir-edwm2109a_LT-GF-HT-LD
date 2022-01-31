@@ -24,6 +24,7 @@ class SortieController extends AbstractController
 {
     /**
      * @Route("/create", name="create")
+     *
      */
     public function create(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
 

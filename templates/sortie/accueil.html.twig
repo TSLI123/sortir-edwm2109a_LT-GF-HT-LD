@@ -18,8 +18,8 @@
         {{ form_end(sortieForm) }}
     </div>
 
-    <div class="w3-responsive tableFixHead">
-        <table class="w3-table-all w3-hoverable ">
+    <div class="w3-responsive tableFixHead w3-mobile max-width=100% height=auto">
+        <table class="w3-table-all w3-hoverable w3-mobile">
             <thead>
             <tr>
                 <th>Nom de la sortie</th>
@@ -79,8 +79,23 @@
     </div>
 
     <br>
-    <div>
-        <a href="{{ path('sortie_create') }}" class="w3-button w3-round-xlarge w3-border">Créer une sortie</a>
+
+    <div id="createSortie">
+
+        <a id="buttonCreateSortie" href="{{ path('sortie_create') }}" class="w3-button w3-round-xlarge w3-border">Créer une sortie</a>
+
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function recupererResolution() {
+            width = screen.width
+            height = screen.height
+
+            return alert(width + " " + height)
+        }
+    </script>
 {% endblock %}
