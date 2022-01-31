@@ -90,6 +90,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
      */
     private $motif;
 
