@@ -10,7 +10,7 @@
     <div>Lieu : {{ sortie.lieu.nom }}</div>
     {{ form_start(annulerForme) }}
     {{ form_widget(annulerForme) }}
-    <button class="annul">  <a href="{{ path('sortie_accueil') }}">Annuler</a></button>
+        <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
     {{ form_end(annulerForme) }}
     </div>
 
