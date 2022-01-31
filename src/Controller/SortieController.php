@@ -168,6 +168,8 @@ class SortieController extends AbstractController
     public function sInsrireAUneSortie(int $id, SortieRepository $sortieRepository, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager) :RedirectResponse {
         //récupérer la sortie
         $sortie = $sortieRepository->find($id);
+        $statut = $sortie->getEtat();
+        if ($statut='Ouverte') {
         //récupérer le participant
         $participant = $participantRepository->find($this->getUser());
         //ajouter le participant s'il n'est pas déjà dans la liste
@@ -175,6 +177,10 @@ class SortieController extends AbstractController
         $sortie->addParticipant($participant);
         $entityManager->persist($sortie);
         $entityManager->flush();
+            $this->addFlash('success', "Super vous êtes incrit à la sortie!");
+        } else {
+            throw $this->createNotFoundException('Ouuups les inscriptions ne sont pas encore ouvertes');
+        }
 
         return $this->redirectToRoute("sortie_accueil");
 
@@ -186,18 +192,28 @@ class SortieController extends AbstractController
     public function publierSortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager) :RedirectResponse {
         //récupérer la sortie
         $sortie = $sortieRepository->find($id);
+        $organisateur = $sortie->getOrganisateur();
+        $user = $this->getUser();
 
+
+        //conditionner la publication à lorganisateur
+            if ($organisateur = $user) {
         //la sortie elle prend le statut ouverte
         $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);;
         $sortie->setEtat($etat);
 
         $entityManager->persist($sortie);
         $entityManager->flush();
+        $this->addFlash('success', "la sortie a été publiée");
+            }
+            else {
+                throw $this->createNotFoundException('Ouuups vous n êtes pas l organisateur de cette sortie');
+            }
 
         return $this->redirectToRoute("sortie_accueil");
 
     }
-    //e désinscrire à une sortie
+    //se désinscrire d'une sortie
     /**
      * @Route ("/desinscription/{id}" , name="seDesister")
      */
