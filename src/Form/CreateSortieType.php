@@ -95,9 +95,8 @@ class CreateSortieType extends AbstractType
                 'label' => 'Enregistrer',
             ])
             ->add('publier', SubmitType::class, [
-                'label' => 'Publier',])
-            ->add('annuler', ResetType::class, [
-                'label' => 'Annuler',]);
+                'label' => 'Publier',]);
+
 
     }
 
