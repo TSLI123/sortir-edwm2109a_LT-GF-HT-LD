@@ -69,9 +69,9 @@ class ProfilType extends AbstractType
                 'choice_label' => 'nom',
                 //'disabled' => true
             ] )
-            /*->add('imgProfil', FileType::class, [
-                'mapped' => false
-            ])*/
+            ->add('imgProfil', FileType::class, [
+
+            ])
             ->add('submit', SubmitType::class,[
                 'label'=>'Enregistrer'
             ])

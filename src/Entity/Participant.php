@@ -90,6 +90,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sortiesOrganisees;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\File(mimeTypes="image/jpeg, image/png")
+     */
+    private $imgProfil;
+
 
 
     public function __construct()
@@ -311,6 +317,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSortiesOrganisees(Sortie $sorty): self
     {
         $this->sortiesOrganisees->removeElement($sorty);
+
+        return $this;
+    }
+
+    public function getImgProfil(): ?string
+    {
+        return $this->imgProfil;
+    }
+
+    public function setImgProfil(?string $imgProfil): self
+    {
+        $this->imgProfil = $imgProfil;
 
         return $this;
     }
