@@ -23,6 +23,19 @@ class SortieRepository extends ServiceEntityRepository
     public function findByData(FiltresSorties $filtre, $user)
     {
         $queryBuilder = $this->createQueryBuilder('s');
+
+        $queryBuilder->leftJoin('s.campus', 'camp')
+            ->addSelect('camp');
+        $queryBuilder->leftJoin('s.lieu', 'addr')
+            ->addSelect('addr');
+        $queryBuilder->leftJoin('s.etat', 'state')
+            ->addSelect('state');
+        $queryBuilder->leftJoin('s.organisateur', 'orga')
+            ->addSelect('orga');
+        $queryBuilder->leftJoin('s.participants', 'parti')
+            ->addSelect('parti');
+
+
         $queryBuilder->andWhere('s.nom like :val');
         $queryBuilder->andWhere('s.campus = :val2');
         $queryBuilder->andWhere($queryBuilder->expr()->between('s.dateHeureDebut', ':date_from', ':date_to'));
