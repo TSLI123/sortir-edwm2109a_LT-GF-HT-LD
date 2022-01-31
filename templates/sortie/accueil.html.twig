@@ -48,10 +48,9 @@
                         {% if app.user == sortie.organisateur %}
                             {% if sortie.etat.libelle == 'Créée' %}
                                   <a href="#">Modifier</a> -
-                                <a href="#">Publier</a>
+                                <a href="{{ path('sortie_publierSortie', {"id" : sortie.id})}}">Publier</a>
                             {% else %}
                                 <a href="{{ path('sortie_details', {"id" : sortie.id}) }}">Afficher</a>
-
                                 {%if sortie.etat.libelle == 'Ouverte' %}
                                      -  <a href="{{ path('sortie_annuler',{"id" : sortie.id})}}">Annuler</a>
                                 {% endif %}

@@ -20,7 +20,7 @@
     </div>
     {% if sortie.etat.id is not same as(3) %}
     <div>
-        <a href="#" class="w3-button w3-round-xlarge w3-border">S'inscrire</a>
+        <a href="{{ path('sortie_sInscrire', {"id" : sortie.id}) }}" class="w3-button w3-round-xlarge w3-border">S'inscrire</a>
     </div>
     {% endif %}
 

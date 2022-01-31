@@ -179,7 +179,25 @@ class SortieController extends AbstractController
         return $this->redirectToRoute("sortie_accueil");
 
     }
-    //s'inscrire à une sortie
+    //passée une sortie à ouverte
+    /**
+     * @Route ("/publication/{id}" , name="publierSortie")
+     */
+    public function publierSortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager) :RedirectResponse {
+        //récupérer la sortie
+        $sortie = $sortieRepository->find($id);
+
+        //la sortie elle prend le statut ouverte
+        $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);;
+        $sortie->setEtat($etat);
+
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("sortie_accueil");
+
+    }
+    //e désinscrire à une sortie
     /**
      * @Route ("/desinscription/{id}" , name="seDesister")
      */
