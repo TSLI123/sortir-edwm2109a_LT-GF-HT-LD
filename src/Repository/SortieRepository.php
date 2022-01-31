@@ -59,12 +59,10 @@ class SortieRepository extends ServiceEntityRepository
             $queryBuilder->setParameter('val5', $user);
         }
 
-        $queryBuilder->leftJoin('s.etat', 'e')
-            ->addSelect('e');
         if (in_array("past", $choices)) {
-            $queryBuilder->andWhere('e.libelle = :val6');
+            $queryBuilder->andWhere('state.libelle = :val6');
         } else {
-            $queryBuilder->andWhere('e.libelle != :val6');
+            $queryBuilder->andWhere('state.libelle != :val6');
         }
         $queryBuilder->setParameter('val6', "passée");
 
@@ -78,9 +76,20 @@ class SortieRepository extends ServiceEntityRepository
     public function findAllCurrentSorties()
     {
         $queryBuilder = $this->createQueryBuilder('s');
-        $queryBuilder->leftJoin('s.etat', 'e')
-            ->addSelect('e');
-        $queryBuilder->andWhere('e.libelle != :val');
+
+        $queryBuilder->leftJoin('s.campus', 'camp')
+            ->addSelect('camp');
+        $queryBuilder->leftJoin('s.lieu', 'addr')
+            ->addSelect('addr');
+        $queryBuilder->leftJoin('s.etat', 'state')
+            ->addSelect('state');
+        $queryBuilder->leftJoin('s.organisateur', 'orga')
+            ->addSelect('orga');
+        $queryBuilder->leftJoin('s.participants', 'parti')
+            ->addSelect('parti');
+
+
+        $queryBuilder->andWhere('state.libelle != :val');
         $queryBuilder->setParameter('val', "passée");
         $query = $queryBuilder->getQuery();
 
