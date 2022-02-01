@@ -5,7 +5,7 @@
         <a href="{{ path('app_logout') }}" class="w3-bar-item w3-button w3-hover-green w3-right">Se déconnecter</a>
         <a href="{{ path('participant_profil', {'pseudo':app.user.pseudo}) }}"
            class="w3-bar-item w3-button w3-hover-green w3-right">Mon profil</a>
-        <a href="{{ path('sortie_accueil') }}" class="w3-bar-item w3-button w3-right">Accueil</a>
+        <a href="{{ path('sortie_accueil') }}" class="w3-bar-item w3-button w3-right w3-hover-green">Accueil</a>
 
         {% if is_granted("ROLE_ADMIN") %}
             <a href="#" class="w3-bar-item w3-button w3-hover-green w3-right">Campus</a>
