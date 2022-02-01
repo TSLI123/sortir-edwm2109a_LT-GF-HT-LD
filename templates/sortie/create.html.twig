@@ -47,16 +47,17 @@
             fetch("{{ app_url_api }}/lieux?id=" + getSelectValue('create_sortie_ville'), { method: "GET"})
                 .then(response => response.json())
                 .then(response => {
-                        console.log(response);
                         // récupérer les données
                         // les traiter
+                        globalLieux = response;
                         let options="";
                         response.map(lieu => {
                             options += `<option value="${lieu.id}">${lieu.nom}</option>`;
                         })
-                        console.log(options);
                         // injecter le résultat dans <select>
                         document.querySelector("#create_sortie_lieu").innerHTML = options;
+                        // afficher détail lieu
+                        displayLieu();
                     }
                 )
                 .catch(e => {
