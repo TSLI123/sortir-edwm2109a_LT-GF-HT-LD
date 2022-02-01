@@ -4,14 +4,15 @@
 
 {% block body %}
 
-<div class="details-profil">
+<div class="w3-display-container">
     <h1>Mon profil</h1>
 
-<aside>
+<div class="w3-card-4 " style="width: 200px" >
     <img src="{{ asset('upload/profilsImg/'~app.user.imgProfil) }}" alt="Photo de{{ app.user.pseudo }}" width="200px">
-</aside>
+</div>
+    <br>
 
-    <div>
+    <div class="w3-container">
        {{ form(form)}}
 
     </div>

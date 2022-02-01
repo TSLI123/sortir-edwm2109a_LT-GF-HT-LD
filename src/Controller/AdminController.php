@@ -122,6 +122,7 @@ class AdminController extends AbstractController
         $entityManager->persist($participant);
         $entityManager->flush();
 
+        $this->addFlash('success', "Le participant est désormais 'Désactivé'.");
 
         return $this->redirectToRoute('admin_manage_participant');
     }
@@ -136,6 +137,7 @@ class AdminController extends AbstractController
         $entityManager->persist($participant);
         $entityManager->flush();
 
+        $this->addFlash('success', "Le participant est désormais 'Actif'.");
 
         return $this->redirectToRoute('admin_manage_participant');
     }
@@ -148,6 +150,7 @@ class AdminController extends AbstractController
 
         $entityManager->remove($participant);
         $entityManager->flush();
+        $this->addFlash('success', "Le participant à été supprimé");
 
 
         return $this->redirectToRoute('admin_manage_participant');

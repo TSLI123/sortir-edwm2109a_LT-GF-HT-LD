@@ -4,10 +4,10 @@
 
 {% block body %}
     <h1 class="text-center fw-bold">Gérer les participants</h1>
+<div>
+<div class="w3-responsive tableFixHead w3-card-4" style="height:600px; margin-top: 40px">
 
-<div class="w3-responsive tableFixHead">
-
-    <table class="w3-table-all w3-hoverable ">
+    <table class="w3-table-all w3-hoverable " >
         <thead>
         <tr>
             <th>Pseudo</th>
@@ -17,6 +17,7 @@
         </thead>
         <tbody>
         {% for participant in participants  %}
+            {% if participant.administrateur == 0 %}
             <tr>
                 <td><a href="{{ path('participant_profil', {"pseudo" : participant.pseudo}) }}">{{ participant.pseudo }}</a></td>
                 <td>{{ participant.prenom }} {{ participant.nom|upper }}</td>
@@ -30,9 +31,10 @@
                     <a href="{{ path('admin_remove_participant', {"id": participant.id}) }}">Supprimer</a>
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
 </div>
-
+</div>
 {% endblock %}

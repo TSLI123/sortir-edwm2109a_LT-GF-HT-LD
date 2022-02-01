@@ -31,7 +31,7 @@
     {# read and display all flash messages #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div class="flash flash-{{ label }}">
+            <div class="w3-animate-zoom w3-card-4 flash flash-{{ label }}">
                 {{ message }}
             </div>
         {% endfor %}
