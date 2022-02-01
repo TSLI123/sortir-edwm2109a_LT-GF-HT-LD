@@ -8,10 +8,10 @@
     <div>Date de la sortie : {{ sortie.dateHeureDebut | date() }}</div>
     <div>Campus : {{ sortie.campus.nom }}</div>
     <div>Lieu : {{ sortie.lieu.nom }}</div>
-    {{ form_start(annulerForme) }}
-    {{ form_widget(annulerForme) }}
+    {{ form_start(annulerForm) }}
+    {{ form_widget(annulerForm) }}
         <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
-    {{ form_end(annulerForme) }}
+    {{ form_end(annulerForm) }}
     </div>
 
 {% endblock %}

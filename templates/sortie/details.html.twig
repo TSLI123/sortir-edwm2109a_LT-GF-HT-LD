@@ -15,7 +15,7 @@
             ['Rue :', sortie.lieu.rue],
             ['Nombre de places :', sortie.nbInscriptionsMax],
             ['Code postal :', sortie.lieu.ville.codePostal],
-            ['Durée :', sortie.duree ~ 'minutes'],
+            ['Durée :', sortie.duree ~ ' minutes'],
             ['Latitude :', sortie.lieu.latitude],
             ['Description et infos :', sortie.infosSortie],
             ['Longitude :', sortie.lieu.longitude],
@@ -49,6 +49,8 @@
                         </td>
                         <td>{{ participant.prenom }} {{ participant.nom|upper }}</td>
                     </tr>
+                {% else %}
+                    <tr><td>Il n'y a pas encore d'inscrit !</td></tr>
                 {% endfor %}
                 </tbody>
             </table>
