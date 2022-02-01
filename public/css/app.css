@@ -19,4 +19,9 @@ th     { background:#eee; }
         visibility: collapse;
 
     }
+
+}
+#re{
+    text-decoration: none;
+    color: black;
 }
