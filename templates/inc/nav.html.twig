@@ -10,8 +10,18 @@
         {% if is_granted("ROLE_ADMIN") %}
             <a href="#" class="w3-bar-item w3-button w3-hover-green w3-right">Campus</a>
             <a href="#" class="w3-bar-item w3-button w3-hover-green w3-right">Villes</a>
-            <a href="{{ path('admin_create_participant') }}" class="w3-bar-item w3-button w3-hover-green w3-right">
-                Participants</a>
+
+            <div class="w3-dropdown-hover  w3-right">
+                <button class="w3-button w3-hover-green">Participants</button>
+            <div class="w3-dropdown-content w3-bar-block w3-border">
+                <a href="{{ path('admin_create_participant') }}" class="w3-bar-item w3-button w3-hover-green">
+                    Créer participants</a>
+                <a href="#" class="w3-bar-item w3-button w3-hover-green">
+                    Gérer participants</a>
+            </div>
+        </div>
+
+
         {% endif %}
     </div>
 {% endif %}
