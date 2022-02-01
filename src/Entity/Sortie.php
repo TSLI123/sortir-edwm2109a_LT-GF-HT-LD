@@ -84,7 +84,7 @@ class Sortie
 
     /**
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortiesOrganisees")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $organisateur;
 

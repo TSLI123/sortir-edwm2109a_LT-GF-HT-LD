@@ -83,11 +83,13 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="participants")
+     *
      */
     private $sorties;
 
     /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $sortiesOrganisees;
 

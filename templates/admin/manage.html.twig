@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion participant | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="text-center fw-bold">Gérer les participants</h1>
+
+<div class="w3-responsive tableFixHead">
+
+    <table class="w3-table-all w3-hoverable ">
+        <thead>
+        <tr>
+            <th>Pseudo</th>
+            <th>Nom</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for participant in participants  %}
+            <tr>
+                <td><a href="{{ path('participant_profil', {"pseudo" : participant.pseudo}) }}">{{ participant.pseudo }}</a></td>
+                <td>{{ participant.prenom }} {{ participant.nom|upper }}</td>
+                <td>
+                    {% if participant.actif == 1 %}
+                        <a href="{{ path('admin_disable_participant', {"id" : participant.id}) }}">Désactiver</a>
+                    {% else %}
+                        <a href="{{ path('admin_active_participant', {"id" : participant.id}) }}">Activer</a>
+                    {% endif %}
+
+                    <a href="{{ path('admin_remove_participant', {"id": participant.id}) }}">Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

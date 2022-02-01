@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\ParticipantType;
+use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -44,5 +46,63 @@ class AdminController extends AbstractController
         return $this->render('admin/create.html.twig', [
             'participantForm' => $participantForm->createView()
         ]);
+    }
+
+    /**
+     * @Route("/manage", name="manage_participant")
+     */
+    public function manageParticipant(ParticipantRepository $participantRepository) :Response
+    {
+        $participants = $participantRepository->findAll();
+
+        if (!$participants) {
+            throw  $this->createNotFoundException('Aucun participants.');
+        }
+
+        return $this->render('admin/manage.html.twig', [
+            "participants" => $participants
+        ]);
+
+    }
+    /**
+     * @Route("/manage/disable/{id}", name="disable_participant")
+     */
+    public function disableParticipant(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager) :RedirectResponse
+    {
+        $participant = $participantRepository->find($id);
+        $participant->setActif(0);
+
+        $entityManager->persist($participant);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('admin_manage_participant');
+    }
+    /**
+     * @Route("/manage/active/{id}", name="active_participant")
+     */
+    public function activeParticipant(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager) :RedirectResponse
+    {
+        $participant = $participantRepository->find($id);
+        $participant->setActif(1);
+
+        $entityManager->persist($participant);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('admin_manage_participant');
+    }
+    /**
+     * @Route("/manage/remove/{id}", name="remove_participant")
+     */
+    public function removeParticipant(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager) :RedirectResponse
+    {
+        $participant = $participantRepository->find($id);
+
+        $entityManager->remove($participant);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('admin_manage_participant');
     }
 }

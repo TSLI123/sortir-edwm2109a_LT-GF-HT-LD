@@ -153,7 +153,7 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/annuler.html.twig', [
             "sortie" => $sortie,
-            'annulerForme' => $annulerForm->createView()
+            'annulerForm' => $annulerForm->createView()
         ]);
     }
 
