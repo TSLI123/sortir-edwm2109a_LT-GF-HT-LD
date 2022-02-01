@@ -3,3 +3,17 @@
 th     { background:#eee; }
 .flash { padding: 20px; font-weight: bold; font-size: 1.4rem; margin: 1rem 0; border-radius: 5px; }
 .flash-success {background-color: darkgreen}
+
+@media screen and (max-width: 540px){
+    #collapseMobileDevice {
+        visibility: collapse;
+
+    }
+}
+
+@media screen and (min-width: 540px){
+    #messageMobileDevice {
+        visibility: collapse;
+
+    }
+}

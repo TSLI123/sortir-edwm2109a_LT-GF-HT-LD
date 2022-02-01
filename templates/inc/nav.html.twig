@@ -10,6 +10,8 @@
         {% if is_granted("ROLE_ADMIN") %}
             <a href="#" class="w3-bar-item w3-button w3-hover-green w3-right">Campus</a>
             <a href="#" class="w3-bar-item w3-button w3-hover-green w3-right">Villes</a>
+            <a href="{{ path('admin_create_participant') }}" class="w3-bar-item w3-button w3-hover-green w3-right">
+                Participants</a>
         {% endif %}
     </div>
 {% endif %}

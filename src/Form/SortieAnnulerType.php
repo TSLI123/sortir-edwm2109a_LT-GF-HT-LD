@@ -17,7 +17,7 @@ class SortieAnnulerType extends AbstractType
         $builder
 
             ->add('motif', TextareaType::class,[
-                'mapped' => false,
+
                 'label'=>'Motif :'])
             ->add('enre', SubmitType::class, [
                 'label' => 'Enregistrer',])

@@ -5,16 +5,27 @@
 <h1 class="text-center fw-bold">Créer une sortie</h1>
 
     {% form_theme sortieForm 'bootstrap_5_horizontal_layout.html.twig' %}
-    <div >
+    <div id="collapseMobileDevice">
         {{ form_start(sortieForm) }}
 
         {{ form_widget(sortieForm) }}
-
+        <button class="annul">  <a href="{{ path('sortie_accueil') }}">Annuler</a></button>
         {{ form_end(sortieForm) }}
     </div>
 
+    <div id="messageMobileDevice">
+       Désolé... La création de sortie est impossible depuis un appareil mobile pour l'instant...
+    </div>
 
-    <div class="w3-center">
+    <div id="collapseMobileDevice" class="w3-container">
+        <label for="lieu_rue">Rue :</label><label id="lieu_rue"></label><br>
+        <label for="lieu_code_postal">Code postal :</label><label id="lieu_code_postal"></label><br>
+        <label for="lieu_latitude">Latitude :</label><label id="lieu_latitude"></label><br>
+        <label for="lieu_longitude">Longitude :</label><label id="lieu_longitude"></label>
+    </div>
+
+
+    <div class="w3-center w3-mobile">
         <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
     </div>
 {% endblock %}
@@ -23,6 +34,7 @@
     {{ parent() }}
     <script>
 
+        var globalLieux;
 
         function getSelectValue(selectId)
         {
@@ -52,10 +64,26 @@
                 })
 
         }
+
+        function displayLieu() {
+            function findCurrentLieu(lieu) {
+                if (lieu.id == getSelectValue('create_sortie_lieu')){
+                    document.querySelector("#lieu_rue").innerHTML = lieu.rue;
+                    document.querySelector("#lieu_code_postal").innerHTML = lieu.ville.codePostal;
+                    document.querySelector("#lieu_latitude").innerHTML = lieu.latitude;
+                    document.querySelector("#lieu_longitude").innerHTML = lieu.longitude;
+                }
+            }
+            globalLieux.forEach(findCurrentLieu)
+        }
+
         window.onload = () => {
 
             document.querySelector("#create_sortie_ville").addEventListener("change", function() {
                 initLieux();
+            })
+            document.querySelector("#create_sortie_lieu").addEventListener("change", function() {
+                displayLieu();
             })
             initLieux();
         }
