@@ -9,9 +9,16 @@
     <br>
     <br>
 <h3 class="w3-center">{{ profil.pseudo }}</h3>
+    
+
+
     <div class="w3-display-container" style="height:500px;">
 
+
+
         <div class="w3-display-middle">
+            <img src="{{ asset('upload/profilsImg/'~profil.imgProfil) }}" alt="Photo de{{ profil.pseudo }}" width="200px">
+            <br>
             <label>Prénom :</label>
             <label>{{ profil.prenom }}</label>
             <br>

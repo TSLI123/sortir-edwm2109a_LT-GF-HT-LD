@@ -5,7 +5,7 @@
 <h1 class="text-center fw-bold">Créer une sortie</h1>
 
     {% form_theme sortieForm 'bootstrap_5_horizontal_layout.html.twig' %}
-    <div id="buttonCreateSortie">
+    <div id="collapseMobileDevice">
         {{ form_start(sortieForm) }}
 
         {{ form_widget(sortieForm) }}
@@ -16,7 +16,8 @@
     <div id="messageMobileDevice">
        Désolé... La création de sortie est impossible depuis un appareil mobile pour l'instant...
     </div>
-    <div class="w3-container">
+
+    <div id="collapseMobileDevice" class="w3-container">
         <label for="lieu_rue">Rue :</label><label id="lieu_rue"></label><br>
         <label for="lieu_code_postal">Code postal :</label><label id="lieu_code_postal"></label><br>
         <label for="lieu_latitude">Latitude :</label><label id="lieu_latitude"></label><br>
@@ -24,7 +25,7 @@
     </div>
 
 
-    <div class="w3-center">
+    <div class="w3-center w3-mobile">
         <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
     </div>
 {% endblock %}

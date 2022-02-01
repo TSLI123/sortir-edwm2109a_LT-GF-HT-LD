@@ -5,7 +5,7 @@ th     { background:#eee; }
 .flash-success {background-color: darkgreen}
 
 @media screen and (max-width: 540px){
-    #buttonCreateSortie {
+    #collapseMobileDevice {
         visibility: collapse;
 
     }

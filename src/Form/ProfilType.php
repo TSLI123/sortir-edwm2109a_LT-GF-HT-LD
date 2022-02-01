@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 
 class ProfilType extends AbstractType
@@ -69,9 +70,23 @@ class ProfilType extends AbstractType
                 'choice_label' => 'nom',
                 //'disabled' => true
             ] )
-            /*->add('imgProfil', FileType::class, [
-                'mapped' => false
-            ])*/
+            ->add('imgProfil', FileType::class, [
+                'data_class'=> null,
+                'label' => false,
+                //'mapped' => false, // Tell that there is no Entity to link
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/png',
+                            'image/jpeg'
+                        ],
+                        'mimeTypesMessage' => "Format invalide",
+                    ])
+                ],
+            ])
+
             ->add('submit', SubmitType::class,[
                 'label'=>'Enregistrer'
             ])

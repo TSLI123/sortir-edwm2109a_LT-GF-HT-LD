@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Form\ProfilType;
 use App\Repository\ParticipantRepository;
+use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -27,8 +29,11 @@ class ParticipantController extends AbstractController
     /**
      * @Route("/profil/{pseudo}", name="participant_profil")
      */
-    public function profil(string $pseudo, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    public function profil(string $pseudo, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $passwordHasher, FileUploader $file_uploader, Participant $participant): Response
     {
+
+
+
         $user = $this->getUser();
 
         if ($pseudo !== $user->getPseudo()){
@@ -41,9 +46,6 @@ class ParticipantController extends AbstractController
             ]);
         }
 
-        if (!$user){
-            throw $this->createNotFoundException('Ouuups pas de profil');
-        }
 
         $form = $this->createForm(ProfilType::class, $user);
 
@@ -51,23 +53,22 @@ class ParticipantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
 
+            $file = $form['imgProfil']->getData();
+            if ($file)
+            {
+                $file_name = $file_uploader->upload($file, $participant);
+                $participant->setImgProfil($file_name);
+            }
+
             $motPasse = $form->get('new_motPasse')->getData();
 
-            if (empty($motPasse)){
-
-                $participant = $form->get('pseudo', 'nom', 'prenom','telephone','email','campus')->getData();
-
-                $participant = $form->getData();
-
-
-           }
-            else {
-                $participant = $form->getData();
+            $participant = $form->getData();
+            if (!empty($motPasse)) {
                 $motPasse = $passwordHasher->hashPassword($participant, $motPasse);
                 $participant->setMotPasse($motPasse);
-                $this->entityManager->persist($participant);
 
             }
+            $this->entityManager->persist($participant);
 
             $this->entityManager->flush();
 
@@ -81,3 +82,4 @@ class ParticipantController extends AbstractController
             ]);
     }
 }
+
