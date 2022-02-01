@@ -6,10 +6,10 @@
 
 <div class="details-profil">
     <h1>Mon profil</h1>
-    
-    <aside>
-        <img src="" alt="">
-    </aside>
+
+<aside>
+    <img src="{{ asset('upload/profilsImg/'~app.user.imgProfil) }}" alt="Photo de{{ app.user.pseudo }}" width="200px">
+</aside>
 
     <div>
        {{ form(form)}}

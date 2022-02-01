@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  * @UniqueEntity("email")
  * @UniqueEntity("pseudo")
+ *
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -92,9 +93,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\File(mimeTypes="image/jpeg, image/png")
+     *
      */
     private $imgProfil;
+
 
 
 
