@@ -1,6 +1,6 @@
 {% if app.user %}
     <div class="w3-bar w3-border w3-light-grey">
-        <span class="w3-xlarge w3-margin">Sortir.com</span>
+        <a href="{{ path('sortie_accueil') }}" id="re"><span class="w3-xlarge w3-margin">Sortir.com</span></a>
 
         <a href="{{ path('app_logout') }}" class="w3-bar-item w3-button w3-hover-green w3-right">Se déconnecter</a>
         <a href="{{ path('participant_profil', {'pseudo':app.user.pseudo}) }}"
