@@ -1,15 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center fw-bold">Créer un participant</h1>
+    <h3 class="text-center fw-bold">Créer un participant</h3>
 
     {% form_theme participantForm 'bootstrap_5_horizontal_layout.html.twig' %}
+    {% form_theme fileForm 'bootstrap_5_layout.html.twig' %}
     <div >
         {{ form_start(participantForm) }}
 
         {{ form_widget(participantForm) }}
         <button>Valider</button>
         {{ form_end(participantForm) }}
+
+        <hr>
+        <h3 class="text-center fw-bold">Ajouter depuis un fichier .csv</h3>
+
+        <i>La première ligne doit être : pseudo;nom;prenom;telephone;campus</i>
+        {{ form_start(fileForm) }}
+
+        {{ form_widget(fileForm) }}
+        <button>Télécharger</button>
+        {{ form_end(fileForm) }}
     </div>
 {% endblock %}
 
