@@ -1,27 +1,47 @@
 {% if app.user %}
-    <div class="w3-bar w3-border w3-light-grey">
-        <a href="{{ path('sortie_accueil') }}" id="re"><b class="w3-xlarge w3-margin a">Sortir.com</b></a>
+    <div class="w3-bar w3-light-grey">
 
-        <a href="{{ path('app_logout') }}" class="w3-bar-item w3-button w3-hover-green w3-right">Se déconnecter</a>
+        <a href="{{ path('sortie_accueil') }}" id="re"><b class="w3-bar-item w3-button w3-xlarge">Sortir.com</b></a>
+
+        <a href="{{ path('app_logout') }}" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Se déconnecter</a>
+
         <a href="{{ path('participant_profil', {'pseudo':app.user.pseudo}) }}"
-           class="w3-bar-item w3-button w3-hover-green w3-right">Mon profil</a>
-        <a href="{{ path('sortie_accueil') }}" class="w3-bar-item w3-button w3-right w3-hover-green">Accueil</a>
+           class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Mon profil</a>
+
+        <a href="{{ path('sortie_accueil') }}" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Accueil</a>
 
         {% if is_granted("ROLE_ADMIN") %}
-            <a href="#" class="w3-bar-item w3-button w3-hover-green w3-right">Campus</a>
-            <a href="#" class="w3-bar-item w3-button w3-hover-green w3-right">Villes</a>
-
-            <div class="w3-dropdown-hover  w3-right">
+            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Campus</a>
+            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Villes</a>
+            <div class="w3-dropdown-hover w3-hide-small w3-right">
                 <button class="w3-button w3-hover-green">Participants</button>
-            <div class="w3-dropdown-content w3-bar-block w3-border">
-                <a href="{{ path('admin_create_participant') }}" class="w3-bar-item w3-button w3-hover-green">
-                    Créer participants</a>
-                <a href="{{ path('admin_manage_participant') }}" class="w3-bar-item w3-button w3-hover-green">
-                    Gérer participants</a>
+                <div class="w3-dropdown-content w3-bar-block w3-border">
+                    <a href="{{ path('admin_create_participant') }}" class="w3-bar-item w3-button w3-hover-green">
+                        Créer participants</a>
+                    <a href="{{ path('admin_manage_participant') }}" class="w3-bar-item w3-button w3-hover-green">
+                        Gérer participants</a>
+                </div>
             </div>
-        </div>
-
-
         {% endif %}
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="myFunction()">&#9776;</a>
+    </div>
+
+    <div id="mobile" class="w3-bar-block w3-gray w3-hide w3-hide-large w3-hide-medium">
+        <a href="{{ path('sortie_accueil') }}" class="w3-bar-item w3-button">Accueil</a>
+        <a href="{{ path('participant_profil', {'pseudo':app.user.pseudo}) }}" class="w3-bar-item w3-button">Mon profil</a>
+        <a href="{{ path('app_logout') }}" class="w3-bar-item w3-button">Se déconnecter</a>
     </div>
 {% endif %}
+
+
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("mobile");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+</script>
