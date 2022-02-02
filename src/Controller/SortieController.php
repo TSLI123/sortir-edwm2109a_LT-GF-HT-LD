@@ -67,7 +67,8 @@ class SortieController extends AbstractController
     /**
      * @Route("/accueil", name="accueil")
      */
-    public function index(Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager,
+                          ParticipantRepository $participantRepository): Response
     {
         $filtre = new FiltresSorties();
 
@@ -79,38 +80,58 @@ class SortieController extends AbstractController
             $sorties = $sortieRepository->findByData($filtre, $this->getUser());
 
         } else {
-            $sorties = $sortieRepository->findAllCurrentSorties();
+
+            //By default we display 'sorties' of user's campus
+            $user = $participantRepository->find($this->getUser());
+            $sorties = $sortieRepository->findCurrentSortiesByCampus($user->getCampus());
         }
 
-        // recherche et clotures des sorties
+
         $currentTime = new \DateTime();
+
         foreach ($sorties as $sortie) {
+            $etat = null;
+            $dateSortie = $sortie->getDateHeureDebut();
+
+            // date_add modifies the DateTime parameter: clone allows you to work on a copy
+            $dateForArchive = date_add(clone $dateSortie, date_interval_create_from_date_string("30 days"));
+            $dateAfterActivity = date_add(clone $dateSortie, date_interval_create_from_date_string($sortie->getDuree() . " minutes"));
+
+            // switch to : 'Clôturée'
             if ($sortie->getEtat()->getLibelle() === 'Ouverte' && $sortie->getDateLimiteInscription() < $currentTime) {
                 $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Clôturée']);
                 $sortie->setEtat($etat);
-                $entityManager->persist($sortie);
-                $entityManager->flush();
             }
-        }
 
-        // recherche et passage en "passée" avec archivage automatique
-        foreach ($sorties as $sortie) {
-            $dateSortie = new \DateTime($sortie->getDateHeureDebut()->format("d-m-Y"));
-            if (date_add($dateSortie, date_interval_create_from_date_string("30 days")) < $currentTime) {
-                $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'passée']);
+
+            // switch to : 'activité en cours' and 'passée'
+            if ($dateSortie < $currentTime and $sortie->getEtat()->getLibelle() !== 'Annulée') {
+
+                if ($dateAfterActivity > $currentTime) {
+                    $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Activité en cours']);
+                } else {
+                    $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'passée']);
+                }
                 $sortie->setEtat($etat);
-                $entityManager->persist($sortie);
-                $entityManager->flush();
             }
+
+            // switch to : 'archivée'
+            if ($dateForArchive < $currentTime) {
+                $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Archivée']);
+                $sortie->setEtat($etat);
+            }
+
+            if ($etat)
+                $entityManager->persist($sortie);
+
         }
+        $entityManager->flush();
 
         return $this->render('sortie/accueil.html.twig', [
             'sorties' => $sorties,
             'sortieForm' => $sortieForm->createView()
         ]);
     }
-
-    //Afficher les infos d'une sortie
 
     /**
      * @Route ("/details/{id}", name="details")
@@ -240,7 +261,7 @@ class SortieController extends AbstractController
     /**
      * @Route ("/modifier/{id}" , name="modifier")
      */
-    public function modifierSortie(int $id, SortieRepository $sortieRepository,Request $request,
+    public function modifierSortie(int $id, SortieRepository $sortieRepository, Request $request,
                                    EntityManagerInterface $entityManager): Response
     {
         $sortie = $sortieRepository->find($id);
@@ -265,24 +286,23 @@ class SortieController extends AbstractController
     /**
      * @Route ("/gerercampus" , name="gererCampus")
      */
-    public function gererCampus(CampusRepository $campusRepository,Request $request):Response
+    public function gererCampus(CampusRepository $campusRepository, Request $request): Response
     {
 
         $campusform = $this->createForm(CampusType::class);
         $campusform->handleRequest($request);
-        if ($campusform->isSubmitted() && $campusform->isValid()){
+        if ($campusform->isSubmitted() && $campusform->isValid()) {
             $cri = $campusform->getData();
 
-           $campus = $campusRepository->findByCampus($cri);
-        }
-        else{
+            $campus = $campusRepository->findByCampus($cri);
+        } else {
 
             $campus = $campusRepository->findAll();
         }
-        return $this->render('campus/gererCampus.html.twig',[
+        return $this->render('campus/gererCampus.html.twig', [
             'campusForm' => $campusform->createView(),
-            'campuss' =>$campus
-    ]);
+            'campuss' => $campus
+        ]);
     }
 
     /**
@@ -291,19 +311,17 @@ class SortieController extends AbstractController
      * @Route ("/modifierCampus/{id}" , name="modifier_campus")
      *
      */
-
-    public function modifierCampus(int $id,CampusRepository $campusRepository , EntityManagerInterface $entityManager , ParticipantRepository $participantRepository)
+    public function modifierCampus(int $id, CampusRepository $campusRepository, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository)
     {
         $campus = $campusRepository->find($id);
 
-        if (!$campus){
-           throw $this->createNotFoundException('Campus  pas trouvé');
-        }
-        else{
+        if (!$campus) {
+            throw $this->createNotFoundException('Campus  pas trouvé');
+        } else {
             $entityManager->remove($campus);
             $entityManager->flush();
         }
-       return $this->redirectToRoute('sortie_gererCampus');
+        return $this->redirectToRoute('sortie_gererCampus');
 
     }
 
