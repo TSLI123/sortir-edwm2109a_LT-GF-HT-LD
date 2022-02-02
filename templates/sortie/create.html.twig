@@ -6,30 +6,53 @@
 
 <h1 class="text-center fw-bold">Créer une sortie</h1>
 
-    {% form_theme sortieForm 'bootstrap_5_horizontal_layout.html.twig' %}
-    <div id="collapseMobileDevice">
-        {{ form_start(sortieForm) }}
+    <div id="messageMobileDevice">
+        Désolé... La création de sortie est impossible depuis un appareil mobile pour l'instant...
+        <div class="w3-center">
+            <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
+        </div>
+    </div>
 
-        {{ form_widget(sortieForm) }}
-        <button class="annul">  <a href="{{ path('sortie_accueil') }}">Annuler</a></button>
+    {% form_theme sortieForm 'bootstrap_5_horizontal_layout.html.twig' %}
+    <div id="collapseMobileDevice" >
+        <div class="w3-row-padding">
+            <div class="w3-half">
+                {{ form_start(sortieForm) }}
+                {{ form_row(sortieForm.nom)}}
+                {{ form_row(sortieForm.dateHeureDebut)}}
+                {{ form_row(sortieForm.dateLimiteInscription)}}
+                {{ form_row(sortieForm.nbInscriptionsMax)}}
+                {{ form_row(sortieForm.duree)}}
+                {{ form_row(sortieForm.infosSortie)}}
+            </div>
+            <div class="w3-half">
+                {{ form_row(sortieForm.campus) }}
+                {{ form_row(sortieForm.ville, {'label': 'Ville :'}) }}
+                {{ form_row(sortieForm.lieu, {'label': 'Lieu :'}) }}
+                <label class="w3-half" for="lieu_rue">Rue :</label>
+                <label class="w3-half" id="lieu_rue"></label>
+                <label class="w3-half" for="lieu_code_postal">Code postal :</label>
+                <label class="w3-half" id="lieu_code_postal"></label>
+                <label class="w3-half" for="lieu_latitude">Latitude :</label>
+                <label class="w3-half" id="lieu_latitude"></label>
+                <label class="w3-half" for="lieu_longitude">Longitude :</label>
+                <label class="w3-half" id="lieu_longitude"></label>
+            </div>
+        </div>
+        <div class="w3-row-padding">
+            <div class="w3-third">
+                {{ form_row(sortieForm.save) }}
+            </div>
+            <div class="w3-third">
+                <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Annuler</button>
+            </div>
+            <div class="w3-third">
+                {{ form_row(sortieForm.publier) }}
+            </div>
+        </div>
         {{ form_end(sortieForm) }}
     </div>
 
-    <div id="messageMobileDevice">
-       Désolé... La création de sortie est impossible depuis un appareil mobile pour l'instant...
-    </div>
-
-    <div id="collapseMobileDevice" class="w3-container">
-        <label for="lieu_rue">Rue :</label><label id="lieu_rue"></label><br>
-        <label for="lieu_code_postal">Code postal :</label><label id="lieu_code_postal"></label><br>
-        <label for="lieu_latitude">Latitude :</label><label id="lieu_latitude"></label><br>
-        <label for="lieu_longitude">Longitude :</label><label id="lieu_longitude"></label>
-    </div>
-
-
-    <div class="w3-center w3-mobile">
-        <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
-    </div>
 {% endblock %}
 
 {% block javascripts %}
