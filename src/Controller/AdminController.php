@@ -171,21 +171,32 @@ class AdminController extends AbstractController
      */
     public function manageCities(VilleRepository $villeRepository, Request $request, EntityManagerInterface  $entityManager) : Response
     {
-        /*$filtre = new FiltresVilles();
+            $cities = $villeRepository->findAll();
+            $filtre = new FiltresVilles();
+            $city = new Ville();
 
-        $sortieForm = $this->createForm(FiltresVillesType::class, $filtre);
-        $sortieForm->handleRequest($request);
+            $cityForm = $this->createForm(CreateVilleType::class, $city);
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $filtreVillesForm = $this->createForm(FiltresVillesType::class, $filtre);
+            $filtreVillesForm->handleRequest($request);
 
-            $cities = $villeRepository->findByData($filtre, $this->getUser());
+            if ($filtreVillesForm->isSubmitted() && $filtreVillesForm->isValid()) {
 
-        } else {
-            $sorties = $sortieRepository->findAllCurrentSorties();
-        }*/
+                $ville = $villeRepository->findByData($filtre, $this->getUser());
 
-        $city = new Ville();
-        $cityForm = $this->createForm(CreateVilleType::class, $city);
+                return $this->render('admin/cities.html.twig', [
+                    "cities" => $cities,
+                    "ville" => $ville,
+                    "cityForm" => $cityForm->createView(),
+                    "filtreVilleform" =>$filtreVillesForm->createView(),
+                ]);
+
+            }
+
+
+
+
+
         $cityForm->handleRequest($request);
 
         if ($cityForm->isSubmitted() && $cityForm->isValid()){
@@ -197,7 +208,7 @@ class AdminController extends AbstractController
         }
 
 
-        $cities = $villeRepository->findAll();
+
 
         if (!$cities) {
             throw  $this->createNotFoundException('Aucunes villes');
@@ -205,7 +216,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/cities.html.twig', [
             "cities" => $cities,
-            "cityForm" => $cityForm->createView()
+            "cityForm" => $cityForm->createView(),
+            "filtreVilleform" =>$filtreVillesForm->createView()
         ]);
     }
     //Supprime une ville

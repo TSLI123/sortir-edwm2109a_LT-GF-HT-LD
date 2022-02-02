@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Classes\FiltresVilles;
 use App\Entity\Ville;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
@@ -27,7 +28,7 @@ class FiltresVillesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Ville::class,
+            'data_class' => FiltresVilles::class,
         ]);
     }
 }

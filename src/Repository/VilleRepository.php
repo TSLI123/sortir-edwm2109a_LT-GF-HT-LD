@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Classes\FiltresVilles;
 use App\Entity\Ville;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,6 +19,21 @@ class VilleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Ville::class);
     }
+
+    public function findByData(FiltresVilles $filtre)
+    {
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder->Where('s.nom like :val');
+        $queryBuilder->setParameter('val', '%' . $filtre->getSearch() . '%');
+
+        $query = $queryBuilder->getQuery();
+
+        $query->setMaxResults(50);
+
+        return $query->getResult();
+    }
+
+
 
     // /**
     //  * @return Ville[] Returns an array of Ville objects

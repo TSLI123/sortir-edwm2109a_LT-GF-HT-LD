@@ -6,6 +6,19 @@
 
     <h1 class="text-center fw-bold">Gérer les villes</h1>
 
+    <h3 class="w3-center">Filtrer les sorties</h3>
+
+    <div class="w3-row-padding">
+        <div class="w3-half">
+            {{ form_start(filtreVilleform) }}
+            {{ form_row(filtreVilleform.search, {'label': 'Le nom de la ville contient :'}) }}
+        </div>
+        <div class="w3-half">
+            <button class="w3-hover-green w3-btn w3-border w3-xxlarge w3-right w3-round">Rechercher</button>
+            {{ form_end(filtreVilleform) }}
+        </div>
+    </div>
+
 
     <div>
         <div class="w3-responsive tableFixHead w3-card-4" style="height:600px; margin-top: 40px">
