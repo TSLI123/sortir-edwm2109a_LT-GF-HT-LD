@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Classes\FiltresVilles;
 use App\Entity\Participant;
+use App\Entity\Ville;
+use App\Form\CreateVilleType;
 use App\Form\CsvType;
+use App\Form\FiltresVillesType;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,6 +100,7 @@ class AdminController extends AbstractController
     }
 
 
+    //Page de gestion des participants par l'administrateur
     /**
      * @Route("/manage", name="manage_participant")
      */
@@ -111,6 +117,7 @@ class AdminController extends AbstractController
         ]);
 
     }
+    //Désactive un participant
     /**
      * @Route("/manage/disable/{id}", name="disable_participant")
      */
@@ -126,6 +133,7 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_manage_participant');
     }
+    //Active un participant
     /**
      * @Route("/manage/active/{id}", name="active_participant")
      */
@@ -141,6 +149,7 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_manage_participant');
     }
+    //Supprime un participant
     /**
      * @Route("/manage/remove/{id}", name="remove_participant")
      */
@@ -155,4 +164,65 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_manage_participant');
     }
+
+    //Gérer les villes
+    /**
+     * @Route("/cities", name="manage_cities")
+     */
+    public function manageCities(VilleRepository $villeRepository, Request $request, EntityManagerInterface  $entityManager) : Response
+    {
+        /*$filtre = new FiltresVilles();
+
+        $sortieForm = $this->createForm(FiltresVillesType::class, $filtre);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            $cities = $villeRepository->findByData($filtre, $this->getUser());
+
+        } else {
+            $sorties = $sortieRepository->findAllCurrentSorties();
+        }*/
+
+        $city = new Ville();
+        $cityForm = $this->createForm(CreateVilleType::class, $city);
+        $cityForm->handleRequest($request);
+
+        if ($cityForm->isSubmitted() && $cityForm->isValid()){
+            $city = $cityForm->getData();
+            $entityManager->persist($city);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_manage_cities');
+        }
+
+
+        $cities = $villeRepository->findAll();
+
+        if (!$cities) {
+            throw  $this->createNotFoundException('Aucunes villes');
+        }
+
+        return $this->render('admin/cities.html.twig', [
+            "cities" => $cities,
+            "cityForm" => $cityForm->createView()
+        ]);
+    }
+    //Supprime une ville
+    /**
+     * @Route("/cities/remove/{id}", name="remove_city")
+     */
+    public function removeCity(int $id, VilleRepository $villeRepository, EntityManagerInterface $entityManager) :RedirectResponse
+    {
+        $city = $villeRepository->find($id);
+
+        $entityManager->remove($city);
+        $entityManager->flush();
+        $this->addFlash('success', "La ville à été supprimée");
+
+
+        return $this->redirectToRoute('admin_manage_cities');
+    }
+
+
 }
