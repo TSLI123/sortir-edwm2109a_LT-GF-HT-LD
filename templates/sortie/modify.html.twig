@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Modifier | {{parent()}}{% endblock %}
+
 {% block body %}
     {% form_theme sortieForm 'bootstrap_5_horizontal_layout.html.twig' %}
     <br>
@@ -18,5 +20,3 @@
     </div>
 
 {% endblock %}
-
-{% block title %}Modifier | {{ parent() }}{% endblock %}

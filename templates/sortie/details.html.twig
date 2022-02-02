@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Détails de {{sortie.nom}}  | {{ parent() }}{% endblock %}
+
 {% block body %}
 
     <div class="w3-container">
@@ -64,7 +66,5 @@
 
 {% endblock %}
 
-{% block title %}
 
-{% endblock %}
 
