@@ -53,9 +53,10 @@ class ParticipantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
 
-            $file = $form['imgProfil']->getData();
-            if ($file)
+
+            if (!empty($form->get('imgProfil')->getData()))
             {
+                $file = $form['imgProfil']->getData();
                 $file_name = $file_uploader->upload($file, $participant);
                 $participant->setImgProfil($file_name);
             }
@@ -68,7 +69,7 @@ class ParticipantController extends AbstractController
                 $participant->setMotPasse($motPasse);
 
             }
-            $this->entityManager->persist($participant);
+
 
             $this->entityManager->flush();
 
