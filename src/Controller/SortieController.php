@@ -38,7 +38,6 @@ class SortieController extends AbstractController
 
             if ($sortieForm->get('save')->isClicked()) {
 
-
                 $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Créée']);
                 $this->addFlash('success', "la sortie a été créée");
             } else {
@@ -51,13 +50,11 @@ class SortieController extends AbstractController
             $sortie->setEtat($etat);
             $sortie->setOrganisateur($organisateur);
 
-
             $entityManager->persist($sortie);
             $entityManager->flush();
 
             return $this->redirectToRoute('sortie_accueil');
         }
-
 
         return $this->render('sortie/create.html.twig', [
             'sortieForm' => $sortieForm->createView()
@@ -103,7 +100,6 @@ class SortieController extends AbstractController
                 $entityManager->flush();
             }
         }
-
 
         return $this->render('sortie/accueil.html.twig', [
             'sorties' => $sorties,
@@ -188,7 +184,6 @@ class SortieController extends AbstractController
         return $this->redirectToRoute("sortie_accueil");
     }
 
-    //passée une sortie à ouverte
 
     /**
      * @Route ("/publication/{id}" , name="publierSortie")
@@ -200,11 +195,10 @@ class SortieController extends AbstractController
         $organisateur = $sortie->getOrganisateur();
         $user = $this->getUser();
 
-
         //conditionner la publication à l'organisateur
         if ($organisateur === $user) {
             //la sortie prend le statut 'ouverte'
-            $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);;
+            $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
             $sortie->setEtat($etat);
 
             $entityManager->persist($sortie);
@@ -224,7 +218,7 @@ class SortieController extends AbstractController
         $sortie = $sortieRepository->find($id);
 
         // tant que la sortie n'a pas commencée
-        if ($sortie->getDateHeureDebut() > new \DateTime() ){
+        if ($sortie->getDateHeureDebut() > new \DateTime()) {
 
             $participant = $participantRepository->find($this->getUser());
 
@@ -239,4 +233,31 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute("sortie_accueil");
     }
+
+    /**
+     * @Route ("/modifier/{id}" , name="modifier")
+     */
+    public function modifierSortie(int $id, SortieRepository $sortieRepository,Request $request,
+                                   EntityManagerInterface $entityManager): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        //conditionner la modification à l'organisateur et aux sorties non publiées
+        if ($sortie->getOrganisateur() !== $this->getUser() || $sortie->getEtat()->getLibelle() != 'Créée') {
+            return $this->redirectToRoute("sortie_accueil");
+        }
+        $sortieForm = $this->createForm(CreateSortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+        return $this->render('sortie/modify.html.twig', [
+            'sortieForm' => $sortieForm->createView()
+        ]);
+    }
+
+
 }
