@@ -10,13 +10,28 @@
     </div>
 
     <h3 class="w3-center">Filtrer les sorties</h3>
+
     {% form_theme sortieForm 'bootstrap_5_horizontal_layout.html.twig' %}
-    <div>
-        {{ form_start(sortieForm) }}
-        {{ form_widget(sortieForm) }}
-        <button class=" w3-hover-green">Rechercher</button>
-        {{ form_end(sortieForm) }}
+    <div class="w3-row-padding">
+        <div class="w3-half">
+            {{ form_start(sortieForm) }}
+            {{ form_row(sortieForm.campus, {'label': 'Campus :'}) }}
+            {{ form_row(sortieForm.search, {'label': 'le nom de la sortie contient :'}) }}
+            <div class="w3-half">
+                {{ form_row(sortieForm.from, {'label': 'Entre'}) }}
+            </div>
+            <div class="w3-half">
+                {{ form_row(sortieForm.to, {'label': ' et'}) }}
+            </div>
+        </div>
+        <div class="w3-half">
+            {{ form_row(sortieForm.choice) }}
+            <button class="w3-hover-green w3-btn w3-border w3-xxlarge w3-right w3-round">Rechercher</button>
+            {{ form_end(sortieForm) }}
+        </div>
     </div>
+
+    <br>
 
     <div class="w3-responsive tableFixHead w3-mobile max-width=100% height=auto w3-card-4">
         <table class="w3-table-all w3-hoverable w3-mobile">
