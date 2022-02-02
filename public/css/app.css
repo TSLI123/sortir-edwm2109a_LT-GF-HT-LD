@@ -13,17 +13,20 @@ a{
 
 @media screen and (max-width: 540px){
     #collapseMobileDevice {
-        visibility: collapse;
-
+        display: none;
+    }
+    #messageMobileDevice {
+        display: block;
     }
 }
 
 @media screen and (min-width: 540px){
-    #messageMobileDevice {
-        visibility: collapse;
-
+    #collapseMobileDevice {
+        display: block;
     }
-
+    #messageMobileDevice {
+        display: none;
+    }
 }
 #re{
     text-decoration: none;
