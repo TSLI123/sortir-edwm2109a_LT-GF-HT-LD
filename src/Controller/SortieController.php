@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Classes\FiltresSorties;
+use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Form\CampusType;
 use App\Form\CreateSortieType;
 use App\Form\FiltresSortiesType;
 use App\Form\SortieAnnulerType;
+use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -257,6 +260,51 @@ class SortieController extends AbstractController
         return $this->render('sortie/modify.html.twig', [
             'sortieForm' => $sortieForm->createView()
         ]);
+    }
+
+    /**
+     * @Route ("/gerercampus" , name="gererCampus")
+     */
+    public function gererCampus(CampusRepository $campusRepository,Request $request):Response
+    {
+
+        $campusform = $this->createForm(CampusType::class);
+        $campusform->handleRequest($request);
+        if ($campusform->isSubmitted() && $campusform->isValid()){
+            $cri = $campusform->getData();
+
+           $campus = $campusRepository->findByCampus($cri);
+        }
+        else{
+
+            $campus = $campusRepository->findAll();
+        }
+        return $this->render('campus/gererCampus.html.twig',[
+            'campusForm' => $campusform->createView(),
+            'campuss' =>$campus
+    ]);
+    }
+
+    /**
+     * @param CampusRepository $campusRepository
+     * @param EntityManagerInterface $entityManager
+     * @Route ("/modifierCampus/{id}" , name="modifier_campus")
+     *
+     */
+
+    public function modifierCampus(int $id,CampusRepository $campusRepository , EntityManagerInterface $entityManager , ParticipantRepository $participantRepository)
+    {
+        $campus = $campusRepository->find($id);
+
+        if (!$campus){
+           throw $this->createNotFoundException('Campus  pas trouvé');
+        }
+        else{
+            $entityManager->remove($campus);
+            $entityManager->flush();
+        }
+       return $this->redirectToRoute('sortie_gererCampus');
+
     }
 
 

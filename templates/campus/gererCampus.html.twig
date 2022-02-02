@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Gerer Campus
+{% endblock %}
+{% block body %}
+    {% form_theme campusForm 'bootstrap_5_horizontal_layout.html.twig' %}
+    {{ form_start(campusForm) }}
+    {{ form_row(campusForm.nom) }}
+<button class="w3-hover-green w3-btn w3-border w3-xxlarge w3-right w3-round">Rechercher</button>
+{{ form_end(campusForm) }}
+<div class="w3-responsive tableFixHead w3-mobile max-width=100% height=auto w3-card-4">
+    <table class="w3-table-all w3-hoverable w3-mobile">
+        <thead>
+        <tr>
+            <th>Campus</th>
+            <th>Action</th>
+        </tr>
+        {% for campus in campuss %}
+        <tbody>
+
+
+        <td>{{ campus.nom }}</td>
+        <td><a href=" {{ path('sortie_modifier_campus', {"id" : campus.id})}}">supprimer</a></td>
+
+        </tbody>
+        {% endfor %}
+    </table>
+            </div>
+
+        {% endblock %}
+

@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Campus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
+use app\controller\SortieController;
 
 /**
  * @method Campus|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +21,43 @@ class CampusRepository extends ServiceEntityRepository
         parent::__construct($registry, Campus::class);
     }
 
-    // /**
-    //  * @return Campus[] Returns an array of Campus objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByCampus(Campus $cri){
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder->andWhere('s.nom like :val');
+        $queryBuilder->setParameter('val', '%' . $cri->getNom().'%' );
+        $query = $queryBuilder->getQuery();
+
+        $query->setMaxResults(50);
+
+        return $query->getResult();
+
+
+
+    }
+
+
+  /*  public function findByCampus($cri)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+
+            ->setParameter('c.', $cri)
+            ->andWhere('c.nom like :nom')
+            ->orderBy('c.nom', 'ASC')
             ->getQuery()
             ->getResult()
         ;
-    }
-    */
+    }*/
 
-    /*
-    public function findOneBySomeField($value): ?Campus
+
+
+  /* public function findByCampus($cri): ?Campus
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.nom like :val')
+            ->setParameter('val', $cri('val'))
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
-    }
-    */
+    }*/
+
 }
