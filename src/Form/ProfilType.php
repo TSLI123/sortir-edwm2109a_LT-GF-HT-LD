@@ -73,7 +73,7 @@ class ProfilType extends AbstractType
             ->add('imgProfil', FileType::class, [
                 'data_class'=> null,
                 'label' => false,
-                //'mapped' => false, // Tell that there is no Entity to link
+                'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
