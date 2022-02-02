@@ -1,4 +1,4 @@
-.tableFixHead          { overflow: auto; height: 200px; min-height:200px;}
+.tableFixHead          { overflow: auto; height: 280px; min-height:280px;}
 .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
 th     { background:#eee; }
 .flash { padding: 20px; font-weight: bold; font-size: 1.4rem; margin: 1rem 0 1rem 25%; border-radius: 5px;
@@ -13,17 +13,20 @@ a{
 
 @media screen and (max-width: 540px){
     #collapseMobileDevice {
-        visibility: collapse;
-
+        display: none;
+    }
+    #messageMobileDevice {
+        display: block;
     }
 }
 
 @media screen and (min-width: 540px){
-    #messageMobileDevice {
-        visibility: collapse;
-
+    #collapseMobileDevice {
+        display: block;
     }
-
+    #messageMobileDevice {
+        display: none;
+    }
 }
 #re{
     text-decoration: none;

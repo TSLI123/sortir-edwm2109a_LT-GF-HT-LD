@@ -1,22 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'sortie/create.html.twig' %}
 
-{% block title %}Modifier | {{parent()}}{% endblock %}
+
+{% block title %}
+    {% set h1 = 'Modifier une sortie' %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    {% form_theme sortieForm 'bootstrap_5_horizontal_layout.html.twig' %}
-    <br>
-    <h1 class="w3-center"> Modifier une sortie</h1>
-
-    <br>
-    <div id="collapseMobileDevice">
-        {{ form_start(sortieForm) }}
-
-        {{ form_widget(sortieForm) }}
-        {{ form_end(sortieForm) }}
-    </div>
-
-    <div class="w3-center">
-        <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
-    </div>
-
+    {% set h1 = 'Modifier une sortie' %}
+    {{ parent() }}
 {% endblock %}
