@@ -19,9 +19,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% if app.user.administrateur == 1 %}
                 {% for city in cities  %}
-
                         <tr>
                             <td>{{ city.nom |upper }}</td>
                             <td>{{ city.codePostal }}</td>
@@ -32,14 +30,15 @@
                             </td>
                         </tr>
                 {% endfor %}
+                {{ form_start(cityForm) }}
                         <tr>
-                            <td{{ form_widget(cityForm.nom) }}></td>
+                            <td>{{ form_widget(cityForm.nom) }}</td>
                             <td>{{ form_widget(cityForm.codePostal) }}</td>
                             <td>{{ form_widget(cityForm.submit) }}</td>
                         </tr>
+                {{ form_end(cityForm) }}
 
 
-                {% endif %}
                 </tbody>
             </table>
         </div>
