@@ -28,7 +28,7 @@ class VilleRepository extends ServiceEntityRepository
 
         $query = $queryBuilder->getQuery();
 
-        $query->setMaxResults(50);
+        $query->setMaxResults(2);
 
         return $query->getResult();
     }

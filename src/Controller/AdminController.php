@@ -171,7 +171,7 @@ class AdminController extends AbstractController
      */
     public function manageCities(VilleRepository $villeRepository, Request $request, EntityManagerInterface  $entityManager) : Response
     {
-            $cities = $villeRepository->findAll();
+
             $filtre = new FiltresVilles();
             $city = new Ville();
 
@@ -182,11 +182,10 @@ class AdminController extends AbstractController
 
             if ($filtreVillesForm->isSubmitted() && $filtreVillesForm->isValid()) {
 
-                $ville = $villeRepository->findByData($filtre, $this->getUser());
+                $cities = $villeRepository->findByData($filtre);
 
                 return $this->render('admin/cities.html.twig', [
                     "cities" => $cities,
-                    "ville" => $ville,
                     "cityForm" => $cityForm->createView(),
                     "filtreVilleform" =>$filtreVillesForm->createView(),
                 ]);
@@ -195,7 +194,7 @@ class AdminController extends AbstractController
 
 
 
-
+        $cities = $villeRepository->findAll();
 
         $cityForm->handleRequest($request);
 
