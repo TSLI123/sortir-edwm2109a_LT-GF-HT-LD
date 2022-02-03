@@ -22,4 +22,6 @@ class ApiLieuController extends AbstractController
         $lieux = $lieuRepository->findByIdVille($idVille);
         return $this->json($lieux, Response::HTTP_OK, [], ['groups' => 'liste_lieux']);
     }
+
+
 }
