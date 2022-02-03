@@ -37,12 +37,14 @@
                             <td>{{ city.nom |upper }}</td>
                             <td>{{ city.codePostal }}</td>
                             <td>
-                                    <a href="#">Modifier</a>
+                                    <a href="{{ path('update_city', {"id": city.id}) }}">Modifier</a>
 
                                     <a href="{{ path('remove_city', {"id": city.id}) }}">Supprimer</a>
                             </td>
                         </tr>
                 {% endfor %}
+
+
                 {{ form_start(cityForm) }}
                         <tr>
                             <td>{{ form_widget(cityForm.nom) }}</td>
