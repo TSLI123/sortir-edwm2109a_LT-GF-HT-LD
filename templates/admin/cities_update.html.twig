@@ -6,6 +6,7 @@
     <h2>Modifier la ville</h2>
     {{ form_start(editCityForm) }}
     {{ form_widget(editCityForm.nom) }}
+        <br>
     {{ form_widget(editCityForm.codePostal) }}
         <br>
     {{ form_widget(editCityForm.submit, { 'label': 'Modifier' }) }}
