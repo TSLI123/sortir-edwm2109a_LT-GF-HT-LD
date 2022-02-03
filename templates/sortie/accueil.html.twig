@@ -18,7 +18,7 @@
                 {% for sortie in sorties %}
                     <tr style="'.$display'">
                         <td><a href="{{ path('sortie_details', {"id" : sortie.id}) }}">{{ sortie.nom }}</a></td>
-                        <td>{{ sortie.dateHeureDebut | date('d/m/Y h:i') }}</td>
+                        <td>{{ sortie.dateHeureDebut | date('d/m/Y H:i') }}</td>
                         <td>{{ sortie.lieu.nom }}</td>
                     </tr>
                 {% else %}
@@ -80,7 +80,7 @@
 
                     <tr style="'.$display'">
                         <td>{{ sortie.nom }}</td>
-                        <td>{{ sortie.dateHeureDebut | date('d/m/Y h:i') }}</td>
+                        <td>{{ sortie.dateHeureDebut | date('d/m/Y H:i') }}</td>
                         <td>{{ sortie.dateLimiteInscription | date('d/m/Y') }}</td>
                         <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
                         <td>{{ sortie.etat.libelle }}</td>

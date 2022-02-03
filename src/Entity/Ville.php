@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VilleRepository::class)
@@ -26,6 +27,8 @@ class Ville
     private $nom;
 
     /**
+     * @Assert\Length(min=5, max=5)
+     * @Assert\Regex(pattern="^(([0-8][0-9])|(9[0-8]))[0-9]{3}$^")
      * @ORM\Column(type="string", length=5)
      * @Groups({"liste_lieux"})
      */

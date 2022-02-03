@@ -46,7 +46,7 @@
                 {{ form_row(sortieForm.save) }}
             </div>
             <div class="w3-third">
-                <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Annuler</button>
+                <a class="w3-btn w3-large w3-border" href="{{ path('sortie_accueil') }}">Annuler</a>
             </div>
             <div class="w3-third">
                 {{ form_row(sortieForm.publier) }}

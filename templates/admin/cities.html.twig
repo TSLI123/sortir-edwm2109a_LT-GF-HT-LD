@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des villes | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center fw-bold">Gérer les villes</h1>
+
+    <h3 class="w3-center">Filtrer les sorties</h3>
+
+    <div class="w3-row-padding">
+        <div class="w3-half">
+            {{ form_start(filtreVilleform) }}
+            {{ form_row(filtreVilleform.search, {'label': 'Le nom de la ville contient :'}) }}
+        </div>
+        <div class="w3-half">
+            <button class="w3-hover-green w3-btn w3-border w3-xxlarge w3-right w3-round">Rechercher</button>
+            {{ form_end(filtreVilleform) }}
+        </div>
+    </div>
+
+
+    <div>
+        <div class="w3-responsive tableFixHead w3-card-4" style="height:600px; margin-top: 40px">
+
+            <table class="w3-table-all w3-hoverable " >
+                <thead>
+                <tr>
+                    <th>Ville</th>
+                    <th>Code postal</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for city in cities  %}
+                        <tr>
+                            <td>{{ city.nom |upper }}</td>
+                            <td>{{ city.codePostal }}</td>
+                            <td>
+                                    <a href="#">Modifier</a>
+
+                                    <a href="{{ path('remove_city', {"id": city.id}) }}">Supprimer</a>
+                            </td>
+                        </tr>
+                {% endfor %}
+                {{ form_start(cityForm) }}
+                        <tr>
+                            <td>{{ form_widget(cityForm.nom) }}</td>
+                            <td>{{ form_widget(cityForm.codePostal) }}</td>
+                            <td>{{ form_widget(cityForm.submit) }}</td>
+                        </tr>
+                {{ form_end(cityForm) }}
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div>
+
+
+
+    </div>
+
+{% endblock %}
+

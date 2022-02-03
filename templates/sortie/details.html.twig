@@ -11,7 +11,7 @@
         {% set liste = [
             ['Nom de la sortie :', sortie.nom ],
             ['Campus :', sortie.campus.nom],
-            ['Date et heure de la sortie :', sortie.dateHeureDebut | date('d/m/Y h:i')],
+            ['Date et heure de la sortie :', sortie.dateHeureDebut | date('d/m/Y H:i')],
             ['Lieu :', sortie.lieu.nom],
             ["Date limite d'inscription :", sortie.dateLimiteInscription | date('d/m/Y')],
             ['Rue :', sortie.lieu.rue],

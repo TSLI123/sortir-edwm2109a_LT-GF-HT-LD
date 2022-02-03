@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
 use App\Form\CsvType;
 use App\Form\ParticipantType;
@@ -44,7 +45,7 @@ class AdminController extends AbstractController
             $entityManager->persist($participant);
             $entityManager->flush();
 
-            $this->addFlash('success', "Participant créé");
+            $this->addFlash('success', ("Le participant '".$participant->getPseudo()."' à été créé"));
         }
 
         // Formulaire d'upload de fichier
@@ -72,7 +73,7 @@ class AdminController extends AbstractController
                         $entityManager->persist($part);
                     }
                     $entityManager->flush();
-                    $this->addFlash('success', "importation réussie");
+                    $this->addFlash('success', ("Importation réussie"));
                 } catch (\Doctrine\DBAL\Exception $e) {
                     $this->addFlash('failure', "Echec de l'import de participants");
                 } catch (ErrorException $e2) {
@@ -95,6 +96,7 @@ class AdminController extends AbstractController
     }
 
 
+    //Page de gestion des participants par l'administrateur
     /**
      * @Route("/manage", name="manage_participant")
      */
@@ -111,6 +113,7 @@ class AdminController extends AbstractController
         ]);
 
     }
+    //Désactive un participant
     /**
      * @Route("/manage/disable/{id}", name="disable_participant")
      */
@@ -122,10 +125,11 @@ class AdminController extends AbstractController
         $entityManager->persist($participant);
         $entityManager->flush();
 
-        $this->addFlash('success', "Le participant est désormais 'Désactivé'.");
+        $this->addFlash('success', "Le participant '".$participant->getPseudo()."' est désormais désactivé.");
 
         return $this->redirectToRoute('admin_manage_participant');
     }
+    //Active un participant
     /**
      * @Route("/manage/active/{id}", name="active_participant")
      */
@@ -137,10 +141,11 @@ class AdminController extends AbstractController
         $entityManager->persist($participant);
         $entityManager->flush();
 
-        $this->addFlash('success', "Le participant est désormais 'Actif'.");
+        $this->addFlash('success', "Le participant '".$participant->getPseudo()."' est désormais actif.");
 
         return $this->redirectToRoute('admin_manage_participant');
     }
+    //Supprime un participant
     /**
      * @Route("/manage/remove/{id}", name="remove_participant")
      */
@@ -150,9 +155,13 @@ class AdminController extends AbstractController
 
         $entityManager->remove($participant);
         $entityManager->flush();
-        $this->addFlash('success', "Le participant à été supprimé");
+        $this->addFlash('success', "Le participant '".$participant->getPseudo()."' à été supprimé !");
 
 
         return $this->redirectToRoute('admin_manage_participant');
     }
+
+
+
+
 }

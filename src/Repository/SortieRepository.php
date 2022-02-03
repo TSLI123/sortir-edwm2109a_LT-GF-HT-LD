@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Classes\FiltresSorties;
+use App\Entity\Campus;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,17 +25,7 @@ class SortieRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('s');
 
-        $queryBuilder->leftJoin('s.campus', 'camp')
-            ->addSelect('camp');
-        $queryBuilder->leftJoin('s.lieu', 'addr')
-            ->addSelect('addr');
-        $queryBuilder->leftJoin('s.etat', 'state')
-            ->addSelect('state');
-        $queryBuilder->leftJoin('s.organisateur', 'orga')
-            ->addSelect('orga');
-        $queryBuilder->leftJoin('s.participants', 'parti')
-            ->addSelect('parti');
-
+        $this->addCommonParameters($queryBuilder);
 
         $queryBuilder->andWhere('s.nom like :val');
         $queryBuilder->andWhere('s.campus = :val2');
@@ -73,10 +64,26 @@ class SortieRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findAllCurrentSorties()
+    public function findCurrentSortiesByCampus(Campus $campus)
     {
         $queryBuilder = $this->createQueryBuilder('s');
 
+        $this->addCommonParameters($queryBuilder);
+
+        $queryBuilder->andWhere('state.libelle != :val');
+        $queryBuilder->setParameter('val', "passée");
+
+        $queryBuilder->andWhere('s.campus = :val3');
+        $queryBuilder->setParameter('val3', $campus);
+
+        $query = $queryBuilder->getQuery();
+
+        $query->setMaxResults(50);
+
+        return $query->getResult();
+    }
+
+    private function addCommonParameters($queryBuilder){
         $queryBuilder->leftJoin('s.campus', 'camp')
             ->addSelect('camp');
         $queryBuilder->leftJoin('s.lieu', 'addr')
@@ -88,41 +95,8 @@ class SortieRepository extends ServiceEntityRepository
         $queryBuilder->leftJoin('s.participants', 'parti')
             ->addSelect('parti');
 
-
-        $queryBuilder->andWhere('state.libelle != :val');
-        $queryBuilder->setParameter('val', "passée");
-        $query = $queryBuilder->getQuery();
-
-        $query->setMaxResults(50);
-
-        return $query->getResult();
+        // filter : 'Archivée'
+        $queryBuilder->andWhere('state.libelle != :arc');
+        $queryBuilder->setParameter('arc', "Archivée");
     }
-    // /**
-    //  * @return Sortie[] Returns an array of Sortie objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Sortie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
