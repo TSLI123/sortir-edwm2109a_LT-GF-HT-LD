@@ -3,14 +3,11 @@
 namespace App\Controller;
 
 use App\Classes\FiltresSorties;
-use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Sortie;
-use App\Form\CampusType;
 use App\Form\CreateSortieType;
 use App\Form\FiltresSortiesType;
 use App\Form\SortieAnnulerType;
-use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -87,7 +84,7 @@ class SortieController extends AbstractController
         }
 
 
-        $currentTime = new \DateTime();
+        $currentTime = new \DateTime('now',new \DateTimeZone('Europe/Paris'));
 
         foreach ($sorties as $sortie) {
             $etat = null;
