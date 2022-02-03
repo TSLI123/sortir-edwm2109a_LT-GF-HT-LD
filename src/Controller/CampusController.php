@@ -21,7 +21,7 @@ class CampusController extends AbstractController
 {
 
     /**
-     * @Route ("/" , name="gererCampus")
+     * @Route ("/campus" , name="gererCampus")
      */
     public function gererCampus(CampusRepository $campusRepository, Request $request, EntityManagerInterface $entityManager): Response
     {

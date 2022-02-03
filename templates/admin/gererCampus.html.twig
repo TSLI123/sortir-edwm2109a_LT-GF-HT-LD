@@ -3,44 +3,51 @@
     Gerer Campus
 {% endblock %}
 {% block body %}
-    {% form_theme campusForm 'bootstrap_5_horizontal_layout.html.twig' %}
+
     <h1 class="text-center fw-bold">Gérer les Campus</h1>
     <h3 class="w3-center">Filtrer les sites</h3>
-    {{ form_start(campusForm) }}
-    {{ form_row(campusForm.nom) }}
-    <button class="w3-hover-green w3-btn w3-border w3-xxlarge w3-right w3-round">Rechercher</button>
-    {{ form_end(campusForm) }}
-
-        <div class="w3-responsive tableFixHead w3-mobile max-width=100% height=auto w3-card-4">
-            <table class="w3-table-all w3-hoverable w3-mobile">
-                <thead>
-                <tr>
-                    <th>Campus</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                {% for campus in campuss %}
-                <tbody>
-                <tr>
-                    <td>{{ campus.nom |upper }}</td>
-                    <td>
-                        <a href="{{ path('campus_update', {"id" : campus.id}) }}">Modifier</a>
-
-                        <a href=" {{ path('campus_supprimer', {"id" : campus.id}) }}">supprimer</a>
-                    </td>
-                </tr>
-                {% endfor %}
-
-                {{ form_start(addForm) }}
-                <tr>
-                    <td>{{ form_row(addForm.nom) }}</td>
-                    <td>{{ form_row(addForm.submit) }} </td>
-                </tr>
-                {{ form_end(addForm) }}
-                </tbody>
-
-            </table>
+    <div class="w3-row-padding">
+        <div class="w3-half">
+            {{ form_start(campusForm) }}
+            {{ form_row(campusForm.nom) }}
         </div>
+        <div class="w3-half">
+            <button class="w3-hover-green w3-btn w3-border w3-xxlarge w3-right w3-round">Rechercher</button>
+
+            {{ form_end(campusForm) }}
+        </div>
+    </div>
+
+    <div class="w3-responsive tableFixHead w3-mobile max-width=100% height=100% w3-card-4">
+        <table class="w3-table-all w3-hoverable w3-mobile">
+            <thead>
+            <tr>
+                <th>Campus</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            {% for campus in campuss %}
+            <tbody>
+            <tr>
+                <td>{{ campus.nom |upper }}</td>
+                <td>
+                    <a href="{{ path('admin_update', {"id" : campus.id}) }}">Modifier</a>
+
+                    <a href=" {{ path('admin_supprimer', {"id" : campus.id}) }}">supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+
+            {{ form_start(addForm) }}
+            <tr>
+                <td>{{ form_row(addForm.nom) }}</td>
+                <td>{{ form_row(addForm.submit) }} </td>
+            </tr>
+            {{ form_end(addForm) }}
+            </tbody>
+
+        </table>
+    </div>
 
 
 
