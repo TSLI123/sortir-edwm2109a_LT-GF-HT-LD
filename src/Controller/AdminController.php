@@ -2,15 +2,11 @@
 
 namespace App\Controller;
 
-use App\Classes\FiltresVilles;
+use App\Entity\Campus;
 use App\Entity\Participant;
-use App\Entity\Ville;
-use App\Form\CreateVilleType;
 use App\Form\CsvType;
-use App\Form\FiltresVillesType;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
-use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -165,75 +161,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_manage_participant');
     }
 
-    //Gérer les villes
-    /**
-     * @Route("/cities", name="manage_cities")
-     */
-    public function manageCities(VilleRepository $villeRepository, Request $request, EntityManagerInterface  $entityManager) : Response
-    {
 
-            $filtre = new FiltresVilles();
-            $city = new Ville();
-
-            $cityForm = $this->createForm(CreateVilleType::class, $city);
-
-            $filtreVillesForm = $this->createForm(FiltresVillesType::class, $filtre);
-            $filtreVillesForm->handleRequest($request);
-
-            if ($filtreVillesForm->isSubmitted() && $filtreVillesForm->isValid()) {
-
-                $cities = $villeRepository->findByData($filtre);
-
-                return $this->render('admin/cities.html.twig', [
-                    "cities" => $cities,
-                    "cityForm" => $cityForm->createView(),
-                    "filtreVilleform" =>$filtreVillesForm->createView(),
-                ]);
-
-            }
-
-
-
-        $cities = $villeRepository->findAll();
-
-        $cityForm->handleRequest($request);
-
-        if ($cityForm->isSubmitted() && $cityForm->isValid()){
-            $city = $cityForm->getData();
-            $entityManager->persist($city);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_manage_cities');
-        }
-
-
-
-
-        if (!$cities) {
-            throw  $this->createNotFoundException('Aucunes villes');
-        }
-
-        return $this->render('admin/cities.html.twig', [
-            "cities" => $cities,
-            "cityForm" => $cityForm->createView(),
-            "filtreVilleform" =>$filtreVillesForm->createView()
-        ]);
-    }
-    //Supprime une ville
-    /**
-     * @Route("/cities/remove/{id}", name="remove_city")
-     */
-    public function removeCity(int $id, VilleRepository $villeRepository, EntityManagerInterface $entityManager) :RedirectResponse
-    {
-        $city = $villeRepository->find($id);
-
-        $entityManager->remove($city);
-        $entityManager->flush();
-        $this->addFlash('success', "La ville à été supprimée");
-
-
-        return $this->redirectToRoute('admin_manage_cities');
-    }
 
 
 }
