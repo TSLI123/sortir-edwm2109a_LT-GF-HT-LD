@@ -50,6 +50,8 @@ class ProfilType extends AbstractType
                 'label' => 'Nouveau mot de passe :',
                 'required' =>false,
                 'mapped'=>false,
+                'constraints' =>
+                new Length(8,8),
                 'first_options' => [
                     'label' => 'Nouveau mot de passe : ',
                     'attr'=>[

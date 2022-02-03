@@ -73,6 +73,7 @@ class CitiesController extends AbstractController
             "filtreVilleform" =>$filtreVillesForm->createView()
         ]);
     }
+
     //Supprime une ville
     /**
      * @Route("/cities/remove/{id}", name="remove_city")
@@ -87,5 +88,35 @@ class CitiesController extends AbstractController
 
 
         return $this->redirectToRoute('manage_cities');
+    }
+
+    //Modifier une ville
+    /**
+     * @Route("/cities/update/{id}", name="update_city")
+     */
+    public function updateCity(int $id, VilleRepository $villeRepository, EntityManagerInterface $entityManager, Request $request) : Response
+    {
+
+        $city = $villeRepository->find($id);
+        $editCityForm = $this->createForm(CreateVilleType::class, $city);
+
+        $editCityForm->handleRequest($request);
+
+        if ($editCityForm->isSubmitted() && $editCityForm->isValid()){
+            $city = $editCityForm->getData();
+            $entityManager->flush();
+
+            //Créer un message à afficher à l'issue
+            $this->addFlash('success', ('Ville de "'.$city->getNom().'" modifiée !'));
+
+            return $this->redirectToRoute('manage_cities');
+        }
+
+
+
+        return $this->render('admin/cities_update.html.twig', [
+            "editCityForm" => $editCityForm->createView(),
+        ]);
+
     }
 }

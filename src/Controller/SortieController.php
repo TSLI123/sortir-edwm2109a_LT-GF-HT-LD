@@ -3,14 +3,11 @@
 namespace App\Controller;
 
 use App\Classes\FiltresSorties;
-use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Sortie;
-use App\Form\CampusType;
 use App\Form\CreateSortieType;
 use App\Form\FiltresSortiesType;
 use App\Form\SortieAnnulerType;
-use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +42,7 @@ class SortieController extends AbstractController
                 $this->addFlash('success', "la sortie a été créée");
             } else {
                 $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
-                $this->addFlash('success', "la sortie a été publié");
+                $this->addFlash('success', "la sortie a été publiée");
             }
 
             $organisateur = $participantRepository->find($this->getUser());
@@ -87,7 +84,7 @@ class SortieController extends AbstractController
         }
 
 
-        $currentTime = new \DateTime();
+        $currentTime = new \DateTime('now',new \DateTimeZone('Europe/Paris'));
 
         foreach ($sorties as $sortie) {
             $etat = null;
@@ -274,8 +271,17 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            if ($sortieForm->get('save')->isClicked()) {
+                $this->addFlash('success', "la sortie a été modifiée");
+            } else {
+                $sortie->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']));
+                $this->addFlash('success', "la sortie a été publiée");
+            }
+
             $entityManager->persist($sortie);
             $entityManager->flush();
+            return $this->redirectToRoute('sortie_accueil');
         }
 
         return $this->render('sortie/modify.html.twig', [

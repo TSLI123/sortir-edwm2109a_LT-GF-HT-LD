@@ -36,6 +36,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      *
      * @Assert\Length(min=8)
+     * @Assert\Regex(
+     * pattern = "^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$^",
+     * match=true,
+     * message="Votre mot de passe doit comporter au moins huit caractères, dont une lettre majuscule et un chiffre.")
      * @var string The hashed password
      * @ORM\Column(type="string")
      */

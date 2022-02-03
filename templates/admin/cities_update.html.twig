@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="w3-container">
+    <h2>Modifier la ville</h2>
+    {{ form_start(editCityForm) }}
+    {{ form_widget(editCityForm.nom) }}
+        <br>
+    {{ form_widget(editCityForm.codePostal) }}
+        <br>
+    {{ form_widget(editCityForm.submit, { 'label': 'Modifier' }) }}
+    {{ form_end(editCityForm) }}
+
+    </div>
+    <div class="w3-center">
+        <button class="w3-btn w3-large w3-border" onclick="history.go(-1)">Retour</button>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
