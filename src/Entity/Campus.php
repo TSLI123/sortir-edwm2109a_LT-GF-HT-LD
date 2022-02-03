@@ -15,7 +15,7 @@ class Campus
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer" )
      */
     private $id;
 
@@ -26,6 +26,7 @@ class Campus
 
     /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="campus")
+     *
      */
     private $sorties;
 
