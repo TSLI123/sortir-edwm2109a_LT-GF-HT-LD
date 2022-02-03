@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("/campus", name="campus_")
+ * @Route("/admin", name="admin_")
  */
 class CampusController extends AbstractController
 {
@@ -43,8 +43,8 @@ class CampusController extends AbstractController
             $campu=$addForm->getData();
             $entityManager->persist($campu);
             $entityManager->flush();
-            $this->addFlash('success', ('Campus de "' . $campu->getNom() . '" ajoutée !'));
-            return $this->redirectToRoute('campus_gererCampus');
+            $this->addFlash('success', ('Campus de "' . $campu->getNom() . '" ajouté !'));
+            return $this->redirectToRoute('admin_gererCampus');
         }
             return $this->render('admin/gererCampus.html.twig', [
                 'campusForm' => $campusform->createView(),
@@ -64,13 +64,13 @@ class CampusController extends AbstractController
         $campus = $campusRepository->find($id);
 
         if (!$campus) {
-            throw $this->createNotFoundException('Campus  pas trouvé');
+            throw $this->createNotFoundException('Campus non trouvé');
         } else {
             $entityManager->remove($campus);
             $entityManager->flush();
-            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" supprimée !'));
+            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" supprimé !'));
         }
-        return $this->redirectToRoute('campus_gererCampus');
+        return $this->redirectToRoute('admin_gererCampus');
 
     }
 
@@ -87,8 +87,8 @@ class CampusController extends AbstractController
         if ($modifierCampus->isSubmitted() && $modifierCampus->isValid()) {
             $campus = $modifierCampus->getData();
             $entityManager->flush();
-            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" modifiée !'));
-            return $this->redirectToRoute('campus_gererCampus');
+            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" modifié !'));
+            return $this->redirectToRoute('admin_gererCampus');
         }
         return $this->render('admin/modifyCampus.html.twig', [
             'modifiCampus' => $modifierCampus->createView()
