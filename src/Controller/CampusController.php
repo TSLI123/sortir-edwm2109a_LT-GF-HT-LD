@@ -43,7 +43,7 @@ class CampusController extends AbstractController
             $campu=$addForm->getData();
             $entityManager->persist($campu);
             $entityManager->flush();
-            $this->addFlash('success', ('Campus de "' . $campu->getNom() . '" ajoutée !'));
+            $this->addFlash('success', ('Campus de "' . $campu->getNom() . '" ajouté !'));
             return $this->redirectToRoute('campus_gererCampus');
         }
             return $this->render('admin/gererCampus.html.twig', [
@@ -64,11 +64,11 @@ class CampusController extends AbstractController
         $campus = $campusRepository->find($id);
 
         if (!$campus) {
-            throw $this->createNotFoundException('Campus  pas trouvé');
+            throw $this->createNotFoundException('Campus non trouvé');
         } else {
             $entityManager->remove($campus);
             $entityManager->flush();
-            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" supprimée !'));
+            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" supprimé !'));
         }
         return $this->redirectToRoute('campus_gererCampus');
 
@@ -87,7 +87,7 @@ class CampusController extends AbstractController
         if ($modifierCampus->isSubmitted() && $modifierCampus->isValid()) {
             $campus = $modifierCampus->getData();
             $entityManager->flush();
-            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" modifiée !'));
+            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" modifié !'));
             return $this->redirectToRoute('campus_gererCampus');
         }
         return $this->render('admin/modifyCampus.html.twig', [
