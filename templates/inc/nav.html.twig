@@ -11,7 +11,7 @@
         <a href="{{ path('sortie_accueil') }}" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Accueil</a>
 
         {% if is_granted("ROLE_ADMIN") %}
-            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Campus</a>
+            <a href="{{ path('campus_gererCampus') }}" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Campus</a>
             <a href="{{ path('manage_cities') }}" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green">Villes</a>
             <div class="w3-dropdown-hover w3-hide-small w3-right">
                 <button class="w3-button w3-hover-green">Participants</button>
