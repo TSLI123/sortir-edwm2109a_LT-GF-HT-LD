@@ -42,7 +42,7 @@ class SortieController extends AbstractController
                 $this->addFlash('success', "la sortie a été créée");
             } else {
                 $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
-                $this->addFlash('success', "la sortie a été publié");
+                $this->addFlash('success', "la sortie a été publiée");
             }
 
             $organisateur = $participantRepository->find($this->getUser());
@@ -271,8 +271,17 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            if ($sortieForm->get('save')->isClicked()) {
+                $this->addFlash('success', "la sortie a été modifiée");
+            } else {
+                $sortie->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']));
+                $this->addFlash('success', "la sortie a été publiée");
+            }
+
             $entityManager->persist($sortie);
             $entityManager->flush();
+            return $this->redirectToRoute('sortie_accueil');
         }
 
         return $this->render('sortie/modify.html.twig', [
