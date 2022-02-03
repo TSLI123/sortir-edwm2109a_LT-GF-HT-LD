@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("/campus", name="campus_")
+ * @Route("/admin", name="admin_")
  */
 class CampusController extends AbstractController
 {
@@ -44,7 +44,7 @@ class CampusController extends AbstractController
             $entityManager->persist($campu);
             $entityManager->flush();
             $this->addFlash('success', ('Campus de "' . $campu->getNom() . '" ajouté !'));
-            return $this->redirectToRoute('campus_gererCampus');
+            return $this->redirectToRoute('admin_gererCampus');
         }
             return $this->render('admin/gererCampus.html.twig', [
                 'campusForm' => $campusform->createView(),
@@ -70,7 +70,7 @@ class CampusController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" supprimé !'));
         }
-        return $this->redirectToRoute('campus_gererCampus');
+        return $this->redirectToRoute('admin_gererCampus');
 
     }
 
@@ -88,7 +88,7 @@ class CampusController extends AbstractController
             $campus = $modifierCampus->getData();
             $entityManager->flush();
             $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" modifié !'));
-            return $this->redirectToRoute('campus_gererCampus');
+            return $this->redirectToRoute('admin_gererCampus');
         }
         return $this->render('admin/modifyCampus.html.twig', [
             'modifiCampus' => $modifierCampus->createView()
