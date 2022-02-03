@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{ form_start(modifiCampus) }}
+    {{ form_row(modifiCampus.nom) }}
+    {{ form_row(modifiCampus.submit , {'label':'Modifier'}) }}
+    {{ form_end(modifiCampus) }}
+{% endblock %}
+
+{% block title %}
+Modifier une Campus
+{% endblock %}
+
