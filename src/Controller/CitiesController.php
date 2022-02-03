@@ -55,7 +55,7 @@ class CitiesController extends AbstractController
             $entityManager->flush();
 
             //Créer un message à afficher à l'issue
-            $this->addFlash('success', ('Ville de '.$city->getNom().' ajoutée !'));
+            $this->addFlash('success', ('Ville de "'.$city->getNom().'" ajoutée !'));
 
             return $this->redirectToRoute('manage_cities');
         }
@@ -83,7 +83,7 @@ class CitiesController extends AbstractController
 
         $entityManager->remove($city);
         $entityManager->flush();
-        $this->addFlash('success', ($city->getNom()." à été supprimée"));
+        $this->addFlash('success', ($city->getNom()." à été supprimée !"));
 
 
         return $this->redirectToRoute('manage_cities');
