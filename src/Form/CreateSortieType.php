@@ -30,7 +30,7 @@ class CreateSortieType extends AbstractType
             ->add('dateHeureDebut', DateTimeType::class, [
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Date et heure de la sortie : '
+                'label' => 'Date et heure de la sortie : ',
             ])
             ->add('dateLimiteInscription', DateType::class, [
                 'html5' => true,
@@ -78,7 +78,12 @@ class CreateSortieType extends AbstractType
                 'label' => 'Enregistrer',
             ])
             ->add('publier', SubmitType::class, [
-                'label' => 'Publier',]);
+                'label' => 'Publier',
+            ])
+            ->add('reset', ResetType::class,[
+                'label'=>'Annuler'
+            ]);
+
 
 
     }

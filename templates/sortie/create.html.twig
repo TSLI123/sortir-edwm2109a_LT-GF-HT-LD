@@ -46,13 +46,16 @@
                 {{ form_row(sortieForm.save) }}
             </div>
             <div class="w3-third">
-                <a class="w3-btn w3-large w3-border" href="{{ path('sortie_accueil') }}">Annuler</a>
+                {{ form_row(sortieForm.reset) }}
             </div>
             <div class="w3-third">
                 {{ form_row(sortieForm.publier) }}
             </div>
         </div>
         {{ form_end(sortieForm) }}
+        <div class="w3-center">
+            <a class="w3-btn w3-large w3-border" href="{{ path('sortie_accueil') }}">Retour</a>
+        </div>
     </div>
 
 {% endblock %}
