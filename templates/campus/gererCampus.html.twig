@@ -20,8 +20,7 @@
 
 
         <td>{{ campus.nom }}</td>
-        <td><a href=" {{ path('sortie_modifier_campus', {"id" : campus.id})}}">supprimer</a></td>
-
+        <td><a href=" {{ path('campus_supprimer', {"id" : campus.id})}}">supprimer</a></td>
         </tbody>
         {% endfor %}
     </table>
