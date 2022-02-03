@@ -68,31 +68,13 @@ class CampusController extends AbstractController
         } else {
             $entityManager->remove($campus);
             $entityManager->flush();
+            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" supprimée !'));
         }
         return $this->redirectToRoute('campus_gererCampus');
 
     }
 
-    /**
-     * @Route ("/add" , name="add")
-     */
-    public function addCampus(EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $campu = new Campus();
-        $addForm = $this->createForm(AddCampusType::class, $campu);
-        $addForm->handleRequest($request);
-        if ($addForm->isSubmitted() && $addForm->isValid()) {
-            $entityManager->persist($campu);
-            $entityManager->flush();
-            $this->addFlash('success', ('Campus de "' . $campus->getNom() . '" ajoutée !'));
-            return $this->redirectToRoute('campus_gererCampus');
-        }
 
-
-        return $this->render('admin/gererCampus.html.twig', [
-            'addForm' => $addForm->createView()
-        ]);
-    }
 
     /**
      * @Route ("/update/{id}" , name="update")
