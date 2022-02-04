@@ -64,7 +64,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/accueil", name="accueil")
      */
-    public function index(Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager,
+    public function index(Request               $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager,
                           ParticipantRepository $participantRepository): Response
     {
         $filtre = new FiltresSorties();
@@ -84,7 +84,7 @@ class SortieController extends AbstractController
         }
 
 
-        $currentTime = new \DateTime('now',new \DateTimeZone('Europe/Paris'));
+        $currentTime = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
 
         foreach ($sorties as $sortie) {
             $etat = null;
@@ -153,21 +153,26 @@ class SortieController extends AbstractController
     public function annuler(int $id, SortieRepository $sortieRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $sortie = $sortieRepository->find($id);
+        $organisateur = $sortie->getOrganisateur();
+        $user = $this->getUser();
         if (!$sortie) {
             throw  $this->createNotFoundException('Aucune sortie par ici !');
         }
+        if ($organisateur == $user) {
+            $annulerForm = $this->createForm(SortieAnnulerType::class, $sortie);
+            $annulerForm->handleRequest($request);
+            if ($annulerForm->isSubmitted() && $annulerForm->isValid()) {
+                $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Annulée']);
 
-        $annulerForm = $this->createForm(SortieAnnulerType::class, $sortie);
-        $annulerForm->handleRequest($request);
-        if ($annulerForm->isSubmitted() && $annulerForm->isValid()) {
-            $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Annulée']);
+                $sortie->setEtat($etat);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                $this->addFlash('success', ('Sortie "' . $sortie->getNom() . '" annulée !'));
+                return $this->redirectToRoute('sortie_accueil');
+            }
 
-            $sortie->setEtat($etat);
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            return $this->redirectToRoute('sortie_accueil');
+
         }
-
         return $this->render('sortie/annuler.html.twig', [
             "sortie" => $sortie,
             'annulerForm' => $annulerForm->createView()
@@ -258,7 +263,7 @@ class SortieController extends AbstractController
     /**
      * @Route ("/modifier/{id}" , name="modifier")
      */
-    public function modifierSortie(int $id, SortieRepository $sortieRepository, Request $request,
+    public function modifierSortie(int                    $id, SortieRepository $sortieRepository, Request $request,
                                    EntityManagerInterface $entityManager): Response
     {
         $sortie = $sortieRepository->find($id);
@@ -288,8 +293,6 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm->createView()
         ]);
     }
-
-
 
 
 }
