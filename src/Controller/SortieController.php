@@ -42,7 +42,7 @@ class SortieController extends AbstractController
                 $this->addFlash('success', "la sortie a été créée");
             } else {
                 $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
-                $this->addFlash('success', "la sortie a été publiée");
+                $this->addFlash('success', 'Sortie "' . $sortie->getNom() . '" publiée !');
             }
 
             $organisateur = $participantRepository->find($this->getUser());
