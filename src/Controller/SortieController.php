@@ -167,13 +167,14 @@ class SortieController extends AbstractController
                 $sortie->setEtat($etat);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
-                $this->addFlash('success', ('Sortie "' . $sortie->getNom() . '" annulée !'));
+                $this->addFlash('failure', ('Action non autorisé !' ));
                 return $this->redirectToRoute('sortie_accueil');
             }
 
 
-        } else{
-            $this->addFlash('failure', ('Action non autorisée !' ));
+        }
+        else{
+            $this->addFlash('failure', ('Action non autorisé !' ));
             return $this->redirectToRoute('sortie_accueil');
         }
         return $this->render('sortie/annuler.html.twig', [
