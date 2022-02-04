@@ -36,11 +36,6 @@ class LieuType extends AbstractType
                 'label' => 'Longitude : '
             ])
             ->add('ville', EntityType::class, [
-                'mapped' => false,
-                'class' => Ville::class,
-                'choice_label' => 'nom',
-                'placeholder' => 'saisir une ville'])
-            ->add('ville', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nom',
                 'placeholder' => 'saisir une ville'
