@@ -174,7 +174,7 @@ class SortieController extends AbstractController
 
         }
         else{
-            $this->addFlash('faileur', ('Sortie "' . $sortie->getNom() . '" ne peut pas être annulé !'));
+            $this->addFlash('failure', ('Action non autorisé !' ));
             return $this->redirectToRoute('sortie_accueil');
         }
         return $this->render('sortie/annuler.html.twig', [
