@@ -39,7 +39,7 @@ class LieuType extends AbstractType
                 'mapped' => false,
                 'class' => Ville::class,
                 'choice_label' => 'nom',
-                'placeholder' => 'saisir une ville'
+                'placeholder' => 'saisir une ville'])
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nom',
@@ -50,8 +50,8 @@ class LieuType extends AbstractType
             ])
             ->add('reset', ResetType::class,[
                 'label'=>'Annuler'
-            ])
-        ;
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
