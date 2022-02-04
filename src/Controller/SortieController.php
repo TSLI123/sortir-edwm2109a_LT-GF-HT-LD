@@ -167,7 +167,7 @@ class SortieController extends AbstractController
                 $sortie->setEtat($etat);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
-                $this->addFlash('success', ('Sortie "' . $sortie->getNom() . '" annulée !'));
+                $this->addFlash('failure', ('Action non autorisé !' ));
                 return $this->redirectToRoute('sortie_accueil');
             }
 
