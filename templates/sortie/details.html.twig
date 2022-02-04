@@ -8,6 +8,7 @@
         <br>
         <h2 class="w3-center">Afficher une sortie</h2>
         <br>
+
         {% set liste = [
             ['Nom de la sortie :', sortie.nom ],
             ['Campus :', sortie.campus.nom],
@@ -22,9 +23,26 @@
             ['Description et infos :', sortie.infosSortie],
             ['Longitude :', sortie.lieu.longitude],
             ['Etat :', sortie.etat.libelle],
-            ['motif annulation :' , sortie.motif]
+
 
         ] %}
+        {% if (sortie.motif != null) %}
+        {% set liste= [
+            ['Nom de la sortie :', sortie.nom ],
+            ['Campus :', sortie.campus.nom],
+            ['Date et heure de la sortie :', sortie.dateHeureDebut | date('d/m/Y H:i')],
+            ['Lieu :', sortie.lieu.nom],
+            ["Date limite d'inscription :", sortie.dateLimiteInscription | date('d/m/Y')],
+            ['Rue :', sortie.lieu.rue],
+            ['Nombre de places :', sortie.nbInscriptionsMax],
+            ['Code postal :', sortie.lieu.ville.codePostal],
+            ['Durée :', sortie.duree ~ ' minutes'],
+            ['Latitude :', sortie.lieu.latitude],
+            ['Description et infos :', sortie.infosSortie],
+            ['Longitude :', sortie.lieu.longitude],
+            ['Etat :', sortie.etat.libelle],
+            ['motif annulation :' , sortie.motif]] %}
+        {% endif %}
 
         {% for element in liste %}
             <b class="w3-quarter w3-center w3-padding">{{ element[0] }} </b>
