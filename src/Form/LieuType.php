@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class LieuType extends AbstractType
 {
@@ -20,9 +21,13 @@ class LieuType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom : '])
+                'label' => 'Nom : ',
+                'constraints' => new Length(2,1,120),
+                'required' => true])
             ->add('rue', TextType::class, [
-                'label'  => 'Rue : '
+                'label'  => 'Rue : ',
+                'constraints' => new Length(2,1,120),
+                'required' => true
             ])
             ->add('latitude', TextType::class, [
                 'label' => 'Latitude : '
@@ -30,6 +35,11 @@ class LieuType extends AbstractType
             ->add('longitude', TextType::class, [
                 'label' => 'Longitude : '
             ])
+            ->add('ville', EntityType::class, [
+                'mapped' => false,
+                'class' => Ville::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'saisir une ville'
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nom',

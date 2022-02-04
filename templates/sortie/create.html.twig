@@ -30,7 +30,13 @@
             <div class="w3-half">
                 {{ form_row(sortieForm.campus) }}
                 {{ form_row(sortieForm.ville, {'label': 'Ville :'}) }}
-                {{ form_row(sortieForm.lieu, {'label': 'Lieu :'}) }}
+                <div class="w3-row">
+                    <div>{{ form_row(sortieForm.lieu, {'label': 'Lieu :'}) }}</div>
+
+                <!-- Button trigger modal -->
+                <div class="w3-display-right"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddLieu" data-target=".bs-example-modal-lg">
+                    +
+                </button></div></div>
                 <label class="w3-half" for="lieu_rue">Rue :</label>
                 <label class="w3-half" id="lieu_rue"></label>
                 <label class="w3-half" for="lieu_code_postal">Code postal :</label>
@@ -62,20 +68,17 @@
 
         </div>#}
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-target=".bs-example-modal-lg">
-        +
-    </button>
+
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAddLieu" tabindex="-1" aria-labelledby="modalAddLieu" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter un lieu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="addLieu">
                     {{ render(controller('App\\Controller\\LieuController::createPlace'))}}
                 </div>
             </div>
@@ -136,20 +139,14 @@
 
         window.onload = () => {
 
-            document.querySelector("#create_sortie_ville").addEventListener("change", function() {
+            document.querySelector("#create_sortie_ville").addEventListener("change", function () {
                 initLieux();
             })
-            document.querySelector("#create_sortie_lieu").addEventListener("change", function() {
+            document.querySelector("#create_sortie_lieu").addEventListener("change", function () {
                 displayLieu();
             })
             initLieux();
         }
-        var myModal = document.getElementById('myModal')
-        var myInput = document.getElementById('myInput')
-
-        myModal.addEventListener('shown.bs.modal', function () {
-            myInput.focus()
-        })
 
 
     </script>
